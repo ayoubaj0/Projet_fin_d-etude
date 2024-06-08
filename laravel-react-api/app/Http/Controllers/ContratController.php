@@ -15,7 +15,7 @@ class ContratController extends Controller
     public function index()
     {
         // Retrieve all contrats
-        $contrats = Contrat::all();
+        $contrats = Contrat::with(['client','voiture'])->get();
 
         // Return JSON response
         return response()->json($contrats, 200);

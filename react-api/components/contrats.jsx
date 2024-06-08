@@ -248,28 +248,41 @@ function Contrats() {
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <h2 className="text-2xl mb-4">Ajouter Contrat</h2>
         <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label className="block text-gray-700">Client ID</label>
-            <input
-              type="text"
-              name="client_id"
-              value={newContrat.client_id}
-              onChange={handleChange}
-              className="mt-1 p-2 w-full border rounded"
-              required
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block text-gray-700">Voiture ID</label>
-            <input
-              type="text"
-              name="voiture_id"
-              value={newContrat.voiture_id}
-              onChange={handleChange}
-              className="mt-1 p-2 w-full border rounded"
-              required
-            />
-          </div>
+        <div className="mb-4">
+  <label className="block text-gray-700">Client ID</label>
+  <select
+    name="client_id"
+    value={newContrat.client_id}
+    onChange={handleChange}
+    className="mt-1 p-2 w-full border rounded"
+    required
+  >
+    <option value="">Select Client</option>
+    {clients.map(client => (
+      <option key={client.id} value={client.id}>
+        {client.nom} {/* Assuming 'name' is the property that holds client names */}
+      </option>
+    ))}
+  </select>
+</div>
+<div className="mb-4">
+  <label className="block text-gray-700">Voiture ID</label>
+  <select
+    name="voiture_id"
+    value={newContrat.voiture_id}
+    onChange={handleChange}
+    className="mt-1 p-2 w-full border rounded"
+    required
+  >
+    <option value="">Select Voiture</option>
+    {voitures.map(voiture => (
+      <option key={voiture.id} value={voiture.id}>
+        {voiture.matricule} {/* Assuming 'model' is the property that holds voiture models */}
+      </option>
+    ))}
+  </select>
+</div>
+
           <div className="mb-4">
             <label className="block text-gray-700">Date de début</label>
             <input
@@ -377,7 +390,7 @@ function Contrats() {
   <thead className="bg-gray-200">
     <tr>
       <th className="py-2 px-4 border-b text-left">ID</th>
-      <th className="py-2 px-4 border-b text-left">Client ID</th>
+      <th className="py-2 px-4 border-b text-left">Client </th>
       <th className="py-2 px-4 border-b text-left">Voiture ID</th>
       <th className="py-2 px-4 border-b text-left">Date de début</th>
       <th className="py-2 px-4 border-b text-left">Date de fin</th>
@@ -389,8 +402,8 @@ function Contrats() {
     {filteredContrats.map(contrat => (
       <tr key={contrat.id} className="hover:bg-gray-100 transition duration-200">
         <td className="py-2 px-4 border-b">{contrat.id}</td>
-        <td className="py-2 px-4 border-b">{contrat.client_id}</td>
-        <td className="py-2 px-4 border-b">{contrat.voiture_id}</td>
+        <td className="py-2 px-4 border-b">{contrat.client.nom}</td>
+        <td className="py-2 px-4 border-b">{contrat.voiture.matricule}</td>
         <td className="py-2 px-4 border-b">{contrat.date_debut}</td>
         <td className="py-2 px-4 border-b">{contrat.date_fin}</td>
         <td className="py-2 px-4 border-b">{contrat.prix_contrat}</td>
