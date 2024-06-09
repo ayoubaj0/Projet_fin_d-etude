@@ -74,7 +74,7 @@ class VoitureController extends Controller
      */
     public function show($id)
     {
-        $voiture = Voiture::with('contrats.facture', 'latestAssurance', 'latestContrat', 'marque', 'carburant')->find($id);
+        $voiture = Voiture::with('contrats.facture', 'latestAssurance', 'latestContrat', 'marque', 'carburant', 'contrats.client',  'assurances')->find($id);
 
         if (is_null($voiture)) {
             return response()->json(['message' => 'Voiture not found'], 404);

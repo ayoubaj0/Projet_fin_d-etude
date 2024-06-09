@@ -11,6 +11,8 @@ function VoitureDetails() {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isFactureModalOpen, setIsFactureModalOpen] = useState(false);
   const [isEditFactureModalOpen, setIsEditFactureModalOpen] = useState(false);
+  const [isAssuranceModalOpen, setIsAssuranceModalOpen] = useState(false);
+  const [isEditAssuranceModalOpen, setIsEditAssuranceModalOpen] = useState(false);
   const [clients, setClients] = useState([]);
   const { id } = useParams();
   const [newContrat, setNewContrat] = useState({
@@ -38,6 +40,19 @@ function VoitureDetails() {
     contrat_id: '',
     date_facture: '',
     montant_total: ''
+  });
+  const [newAssurance, setNewAssurance] = useState({
+    voiture_id: id,
+    date_debut: '',
+    date_fin: '',
+    
+  });
+  const [editAssurance, setEditAssurance] = useState({
+    id: '',
+    voiture_id: id,
+    date_debut: '',
+    date_fin: '',
+    
   });
 
   useEffect(() => {
@@ -81,6 +96,15 @@ function VoitureDetails() {
   const handleEditFactureChange = (e) => {
     const { name, value } = e.target;
     setEditFacture({ ...editFacture, [name]: value });
+  };
+  const handleAssuranceChange = (e) => {
+    const { name, value } = e.target;
+    setNewAssurance({ ...newAssurance, [name]: value });
+  };
+
+  const handleEditAssuranceChange = (e) => {
+    const { name, value } = e.target;
+    setEditAssurance({ ...editAssurance, [name]: value });
   };
 
   const handleSubmit = async (e) => {
@@ -188,6 +212,53 @@ function VoitureDetails() {
     }
   };
 
+  const handleAssuranceSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post('http://127.0.0.1:8000/api/assurances', newAssurance);
+      if (response.status === 201) {
+        setVoiture({ ...voiture, assurances: [...voiture.assurances, response.data] });
+        setIsAssuranceModalOpen(false);
+        setNewAssurance({
+          voiture_id: voiture.id,
+          date_debut: '',
+          date_fin: '',
+          
+        });
+      } else {
+        console.error('Unexpected response:', response);
+      }
+    } catch (error) {
+      console.error('There was an error adding the assurance!', error);
+    }
+  };
+
+  const handleEditAssuranceSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.put(`http://127.0.0.1:8000/api/assurances/${editAssurance.id}`, editAssurance);
+      if (response.status === 200) {
+        setVoiture({
+          ...voiture,
+          assurances: voiture.assurances.map((assurance) => (assurance.id === editAssurance.id ? response.data : assurance))
+        });
+        fetchVoiture();
+        setIsEditAssuranceModalOpen(false);
+        setEditAssurance({
+          id: '',
+          voiture_id: '',
+          date_debut: '',
+          date_fin: '',
+          
+        });
+      } else {
+        console.error('Unexpected response:', response);
+      }
+    } catch (error) {
+      console.error('There was an error updating the assurance!', error);
+    }
+  };
+
   const handleEdit = (contrat) => {
     setEditContrat(contrat);
     setIsEditModalOpen(true);
@@ -198,6 +269,10 @@ function VoitureDetails() {
     setIsEditFactureModalOpen(true);
   };
 
+  const handleEditAssuranceClick = (assurance) => {
+    setEditAssurance(assurance);
+    setIsEditAssuranceModalOpen(true);
+  };
 
   const handleDelete = async (id) => {
     try {
@@ -232,6 +307,19 @@ function VoitureDetails() {
       }
     } catch (error) {
       console.error('There was an error deleting the facture!', error);
+    }
+  };
+
+  const handleAssuranceDelete = async (id) => {
+    try {
+      const response = await axios.delete(`http://127.0.0.1:8000/api/assurances/${id}`);
+      if (response.status === 204) {
+        setVoiture({ ...voiture, assurances: voiture.assurances.filter((assurance) => assurance.id !== id) });
+      } else {
+        console.error('Unexpected response:', response);
+      }
+    } catch (error) {
+      console.error('There was an error deleting the assurance!', error);
     }
   };
   
@@ -300,7 +388,7 @@ function VoitureDetails() {
                   <thead>
                     <tr>
                       <th className="px-4 py-2">ID</th>
-                      <th className="px-4 py-2">Client ID</th>
+                      <th className="px-4 py-2">Client nom</th>
                       <th className="px-4 py-2">Date_Début</th>
                       <th className="px-4 py-2">_Date_Fin__</th>
                       <th className="px-4 py-2">Prix_Contrat_</th>
@@ -315,7 +403,8 @@ function VoitureDetails() {
                     {voiture.contrats.map(contrat => (
                       <tr key={contrat.id}>
                         <td className="border px-4 py-2">{contrat.id}</td>
-                        <td className="border px-4 py-2">{contrat.client_id}</td>
+                        {/* <td className="border px-4 py-2">{contrat.client_id}</td> */}
+                        <td className="border px-4 py-2">{contrat.client.nom}</td>
                         <td className="border px-4 py-2">{contrat.date_debut}</td>
                         <td className="border px-4 py-2">{contrat.date_fin}</td>
                         <td className="border px-4 py-2">{contrat.prix_contrat} <span className='badge green-badge'>DH</span> </td>
@@ -383,7 +472,37 @@ function VoitureDetails() {
           ) : (
             <p>No contracts found for this car.</p>
           )}
+          <div className="bg-white shadow-lg rounded-lg p-6 w-full max-w-4xl">
+          <h2 className="text-2xl font-semibold mb-4">Assurances</h2>
+          <button onClick={() => setIsAssuranceModalOpen(true)} className="button bg-blue-500 text-white py-1 px-3 rounded hover:bg-blue-700"> <i className="fa-solid fa-plus"></i> Ajouter Assurance</button>
+          <table className="table-auto w-full">
+            <thead>
+              <tr>
+              <th>Assurance ID</th>
+                <th>Date de début</th>
+                <th>Date de fin</th>
+                {/* <th>Montant</th> */}
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {voiture.assurances.map((assurance) => (
+                <tr key={assurance.id}>
+                  <td className="border px-4 py-2">{assurance.id}</td>
+                  <td className="border px-4 py-2">{assurance.date_debut}</td>
+                  <td className="border px-4 py-2">{assurance.date_fin}</td>
+                  {/* <td className="border px-4 py-2">{assurance.montant}</td> */}
+                  <td className="border px-4 py-2">
+                    <button  className="edit-button bg-yellow-500 text-black py-1 px-3 rounded hover:bg-yellow-700" onClick={() => handleEditAssuranceClick(assurance)}><i className="fa-solid fa-pen-to-square"></i>  Modifier</button>
+                    <button onClick={() => handleAssuranceDelete(assurance.id)}  className="delete-button bg-red-500 text-white py-1 px-3 rounded hover:bg-red-700"><i className="fa-solid fa-trash"></i> Supprimer</button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          </div>
         </div>
+        
       ) : (
         <p>Loading...</p>
       )}
@@ -581,6 +700,32 @@ function VoitureDetails() {
           </div>
         </form>
       </Modal>
+      <Modal isOpen={isAssuranceModalOpen} onClose={() => setIsAssuranceModalOpen(false)}>
+            <form onSubmit={handleAssuranceSubmit}>
+              <label>
+                Date de début:
+                <input type="date" className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md" name="date_debut" value={newAssurance.date_debut} onChange={handleAssuranceChange} />
+              </label>
+              <label>
+                Date de fin:
+                <input type="date" className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md" name="date_fin" value={newAssurance.date_fin} onChange={handleAssuranceChange} />
+              </label>
+              <button type="submit" className="button bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700" >Ajouter</button>
+            </form>
+          </Modal>
+          <Modal isOpen={isEditAssuranceModalOpen} onClose={() => setIsEditAssuranceModalOpen(false)}>
+            <form onSubmit={handleEditAssuranceSubmit}>
+              <label>
+                Date de début:
+                <input type="date" className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"  name="date_debut" value={editAssurance.date_debut} onChange={handleEditAssuranceChange} />
+              </label>
+              <label>
+                Date de fin:
+                <input type="date" className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"  name="date_fin" value={editAssurance.date_fin} onChange={handleEditAssuranceChange} />
+              </label>
+              <button type="submit" className="button bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700" >Modifier</button>
+            </form>
+          </Modal>
     </div>
   );
 }

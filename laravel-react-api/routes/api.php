@@ -7,6 +7,7 @@ use App\Http\Controllers\MarqueController;
 use App\Http\Controllers\ContratController;
 use App\Http\Controllers\FactureController;
 use App\Http\Controllers\VoitureController;
+use App\Http\Controllers\AssuranceController;
 use App\Http\Controllers\CarburantController;
 /*
 |--------------------------------------------------------------------------
@@ -53,3 +54,9 @@ Route::post('/factures', [FactureController::class, 'store']);
 Route::get('/factures/{id}', [FactureController::class, 'show']);
 Route::put('/factures/{id}', [FactureController::class, 'update']); 
 Route::delete('/factures/{id}', [FactureController::class, 'destroy']);
+
+Route::get('/assurances', [AssuranceController::class, 'index']); 
+Route::post('/assurances', [AssuranceController::class, 'store']); 
+Route::get('/assurances/{id}', [AssuranceController::class, 'show']);
+Route::put('/assurances/{id}', [AssuranceController::class, 'update']); 
+Route::delete('/assurances/{id}', [AssuranceController::class, 'destroy']);
