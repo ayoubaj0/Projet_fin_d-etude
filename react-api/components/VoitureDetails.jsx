@@ -246,14 +246,50 @@ function VoitureDetails() {
             <h2 className="text-2xl font-semibold mb-4">Voiture Details</h2>
             <div className="grid grid-cols-1 gap-2">
               <p><span className="font-semibold">ID:</span> {voiture.id}</p>
-              <p><span className="font-semibold">Matricule:</span> {voiture.matricule}</p>
-              <p><span className="font-semibold">Nbr Chevaux:</span> {voiture.nbr_chevaux}</p>
-              <p><span className="font-semibold">Kilometrage:</span> {voiture.kilometrage}</p>
-              <p><span className="font-semibold">Prix par Jour:</span> {voiture.prix_par_jour}</p>
-              <p><span className="font-semibold">Carburant ID:</span> {voiture.carburant_id}</p>
-              <p><span className="font-semibold">Marque ID:</span> {voiture.marque_id}</p>
-              <p><span className="font-semibold">Disponible:</span> {voiture.disponible ? 'Yes' : 'No'}</p>
+              <p><span className="font-semibold">Matricule :</span> {voiture.matricule}</p>
+              <p><span className="font-semibold">Nbr Chevaux :</span> {voiture.nbr_chevaux}</p>
+              <p><span className="font-semibold">Kilometrage :</span> {voiture.kilometrage}</p>
+              <p><span className="font-semibold">Prix par Jour :</span> {voiture.prix_par_jour}</p>
+              <p><span className="font-semibold">Carburant type :</span> {voiture.carburant.label}</p>
+              <p><span className="font-semibold">Marque :</span> {voiture.marque.label}</p>
+              <p><span className="font-semibold">État du véhicule :</span> <span className={`badge text-center ${voiture.disponible === "0" ? "red-badge" : "green-badge"}`}>
+                      {voiture.disponible === "0" ? "Endommagée" : "Bon état"}
+                    </span>
+              </p>
+              <p> <span className="font-semibold"> État de la location : </span>
+              {voiture.latest_contrat ? (
+    <span>
+      {new Date(voiture.latest_contrat.date_debut) <= new Date() && new Date(voiture.latest_contrat.date_fin) >= new Date() ? (
+        <>
+          <span className="badge orange-badge">En cours de location / {new Date(voiture.latest_contrat.date_fin).toLocaleDateString(undefined, { month: 'long', day: 'numeric' })}</span> 
+        </>
+      ) : (
+        <span className="badge green-badge">Pas de location</span>
+      )}
+    </span>
+  ) : (
+    <span className="badge green-badge">Pas de location (0)</span>
+  )}
+              </p>
+             
+              {voiture.latest_assurance && (
+    <p className=''>
+   <span className="font-semibold">Assurance :</span>
+      {voiture.days_left > 7 && (
+        <span className="badge green-badge "> {voiture.days_left} jours</span>
+      )}
+      {voiture.days_left <= 0 && (
+        <span className="badge red-badge "> Assurance exspanirée!</span>
+      )}
+      {voiture.days_left < 7 && voiture.days_left > 0 && (
+        <span className="badge orange-badge"> {voiture.days_left} jours</span>
+      )}
+      {/* Assurance expirée! Assurance expire bientôt! */}
+    </p>
+  )}
+              
             </div>
+
           </div>
           <button className="button" onClick={() => setIsModalOpen(true)}><i className="fa-solid fa-plus"></i> Ajouter Contrat</button>
           {voiture.contrats.length > 0 ? (

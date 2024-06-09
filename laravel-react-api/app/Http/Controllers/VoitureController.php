@@ -74,10 +74,22 @@ class VoitureController extends Controller
      */
     public function show($id)
     {
-        $voiture = Voiture::with('contrats.facture')->find($id);
+        $voiture = Voiture::with('contrats.facture', 'latestAssurance', 'latestContrat', 'marque', 'carburant')->find($id);
 
         if (is_null($voiture)) {
             return response()->json(['message' => 'Voiture not found'], 404);
+        }
+        if ($voiture->latestAssurance) {
+            $endDate = Carbon::parse($voiture->latestAssurance->date_fin);
+            $now = Carbon::now();
+            if ($now->lessThanOrEqualTo($endDate)) {
+                $daysLeft = $endDate->diffInDays($now);
+            } else {
+                $daysLeft = 0; // Assurance has expired
+            }
+            $voiture->days_left = $daysLeft;
+        } else {
+            $voiture->days_left = 0; // No assurance available
         }
 
         return response()->json($voiture, 200);
