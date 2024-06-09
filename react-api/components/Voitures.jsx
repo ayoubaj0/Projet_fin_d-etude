@@ -38,13 +38,42 @@ function Voitures() {
     etat_location: ''
 
   });
-  const handleFilterChange = (e) => {
-    const { name, value } = e.target;
-    setFilter((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
+  // const handleFilterChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setFilter((prevState) => ({
+  //     ...prevState,
+  //     [name]: value,
+  //   }));
+  // };
+  const handleFilterChange = (e, isCheckbox = false) => {
+    const { name, value, checked } = e.target;
+  
+    if (isCheckbox) {
+      if (checked) {
+        setFilter((prevState) => ({
+          ...prevState,
+          disponibleFilter: true,
+          disponible: '1',
+          assurance_status: 'boon',
+          etat_location: 'disponible',
+        }));
+      } else {
+        setFilter((prevState) => ({
+          ...prevState,
+          disponibleFilter: false,
+          disponible: '',
+          assurance_status: '',
+          etat_location: '',
+        }));
+      }
+    } else {
+      setFilter((prevState) => ({
+        ...prevState,
+        [name]: value,
+      }));
+    }
   };
+  
 
   useEffect(() => {
     fetchVoitures();
@@ -62,11 +91,16 @@ function Voitures() {
       (filter.assurance_status === 'expiree' && parseInt(voiture.days_left) <= 0) ||
       (filter.assurance_status === 'expiree_bientot' && parseInt(voiture.days_left) > 0 && parseInt(voiture.days_left) <= 7) ||
       (filter.assurance_status === 'boon' && parseInt(voiture.days_left) > 7))&&
-      (filter.etat_location === '' ||
-        (filter.etat_location === 'en_cours' && voiture.contrats.some(contrat => new Date(contrat.date_debut) <= new Date() && new Date(contrat.date_fin) >= new Date())) ||
-        (filter.etat_location === 'disponible' && voiture.contrats.every(contrat => !(new Date(contrat.date_debut) <= new Date() && new Date(contrat.date_fin) >= new Date()))))
-    );
-  });
+  //     (filter.etat_location === '' ||
+  //       (filter.etat_location === 'en_cours' && voiture.contrats.some(contrat => new Date(contrat.date_debut) <= new Date() && new Date(contrat.date_fin) >= new Date())) ||
+  //       (filter.etat_location === 'disponible' && voiture.contrats.every(contrat => !(new Date(contrat.date_debut) <= new Date() && new Date(contrat.date_fin) >= new Date()))))
+  //   );
+  // });
+  (filter.etat_location === '' ||
+    (filter.etat_location === 'en_cours' && voiture.latest_contrat && new Date(voiture.latest_contrat.date_debut) <= new Date() && new Date(voiture.latest_contrat.date_fin) >= new Date()) ||
+    (filter.etat_location === 'disponible' &&( !voiture.latest_contrat || new Date(voiture.latest_contrat.date_debut) >= new Date() || new Date(voiture.latest_contrat.date_fin) <= new Date())))
+);
+});
   const resetFilters = () => {
     setFilter({
       carburant_id: '',
@@ -81,6 +115,7 @@ function Voitures() {
     try {
       const response = await axios.get('http://127.0.0.1:8000/api/voitures');
       setVoitures(response.data);
+      fetchCarburants();
     } catch (error) {
       console.error('There was an error fetching the voitures!', error);
     }
@@ -142,7 +177,9 @@ const handleEditChange = (e) => {
     try {
       const response = await axios.post('http://127.0.0.1:8000/api/voitures', newVoiture);
       if (response.status === 201) {
-        setVoitures([...voitures, response.data]);
+        // setVoitures([...voitures, response.data]);
+    fetchVoitures();
+
         setIsModalOpen(false);
         setNewVoiture({
           matricule: '',
@@ -166,7 +203,8 @@ const handleEditChange = (e) => {
     try {
       const response = await axios.put(`http://127.0.0.1:8000/api/voitures/${editVoiture.id}`, editVoiture);
       if (response.status === 200) {
-        setVoitures(voitures.map(voiture => (voiture.id === editVoiture.id ? response.data : voiture)));
+        // setVoitures(voitures.map(voiture => (voiture.id === editVoiture.id ? response.data : voiture)));
+        fetchVoitures();
         setIsEditModalOpen(false);
         setEditVoiture({
           id: '',
@@ -195,7 +233,7 @@ const handleEditChange = (e) => {
   return (
     <div className="container">
       <h1 className="title">Voitures</h1>
-      <button className="button" onClick={() => setIsModalOpen(true)}>Ajouter Voiture</button>
+      <button className="button" onClick={() => setIsModalOpen(true)}><i className="fa-solid fa-plus"></i> Ajouter Voiture</button>
       <div className="filter-container">
         <select name="carburant_id" value={filter.carburant_id} onChange={handleFilterChange} className="filter-select">
           <option value="">Tous les carburants</option>
@@ -210,9 +248,9 @@ const handleEditChange = (e) => {
           ))}
         </select>
         <select name="disponible" value={filter.disponible} onChange={handleFilterChange} className="filter-select">
-          <option value="">Disponibilité</option>
-          <option value="1">Oui</option>
-          <option value="0">Non</option>
+          <option value="">État du véhicule</option>
+          <option value="1">Bon état</option>
+          <option value="0">Endommagée</option>
         </select>
         <select name="assurance_status" value={filter.assurance_status} onChange={handleFilterChange} className="filter-select">
           <option value="">Assurance</option>
@@ -225,7 +263,24 @@ const handleEditChange = (e) => {
         <option value="en_cours">En cours de location</option>
         <option value="disponible">Disponible à la location</option>
       </select>
-      <button className="button" onClick={resetFilters}>Reset</button>
+      <div className="m-4 flex ">
+  <input
+    type="checkbox"
+    id="disponibleFilter"
+    checked={filter.disponibleFilter}
+    onChange={(e) => handleFilterChange(e, true)}
+    className="mr-2 h-4 w-4 rounded border-gray-300 text-green-600 focus:ring-green-500"
+  />
+  <label htmlFor="disponibleFilter" className="font-medium p-4">
+    Disponible à la location :
+    <span className="badge green-badge  border ">
+      En bon état | Avec assurance &gt;7j | Pas de location
+    </span>
+  </label>
+</div>
+
+
+      <button className="edit-button  " onClick={resetFilters}><i className="fa-solid fa-xmark"></i> Reset</button>
 
       </div>
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
@@ -321,7 +376,7 @@ const handleEditChange = (e) => {
 </div>
 {/* {typeof newVoiture.disponible} */}
           <button type="submit" className="bg-green-500 text-black py-2 px-4 rounded">
-            Submit
+           <i className="fa-solid fa-check"></i> Submit
           </button>
         </form>
       </Modal>
@@ -431,7 +486,7 @@ const handleEditChange = (e) => {
   </select>
 </div>
           <button type="submit" className="bg-green-500 text-black py-2 px-4 rounded">
-            Submit
+           <i className="fa-solid fa-check"></i> Submit
           </button>
         </form>
       </Modal>
@@ -446,10 +501,10 @@ const handleEditChange = (e) => {
               <th className="py-2 px-4 border-b text-left">Prix par_Jour</th>
               <th className="py-2 px-4 border-b text-left">Carburant Type </th>
               <th className="py-2 px-4 border-b text-left">Marque </th>
-              <th className="py-2 px-4 border-b text-left">Disponible</th>
+              <th className="py-2 px-4 border-b text-left">État du_véhicule</th>
               <th className="py-2 px-4 border-b text-left">Jours restants pour_l'assurance</th>
-              <th className="py-2 px-4 border-b text-left">etat_de_voiture_location</th>
-              <th className="py-2 px-4 border-b text-left">Actions</th>
+              <th className="py-2 px-4 border-b text-left">État de_la_voiture_en_location</th>
+              <th className="py-2 px-4 border-b text-left" style={{ width: "200px" }}>________________Actions_________________</th>
             </tr>
           </thead>
           <tbody>
@@ -464,7 +519,7 @@ const handleEditChange = (e) => {
                 <td className="py-2 px-4 border-b">{voiture.marque.label}</td>
                 <td className="py-2 px-4 border-b ">
                     <p className={`badge text-center ${voiture.disponible === "0" ? "red-badge" : "green-badge"}`}>
-                      {voiture.disponible === "0" ? "non" : "oui"}
+                      {voiture.disponible === "0" ? "Endommagée" : "Bon état"}
                     </p>                
                 </td>
                
@@ -483,15 +538,29 @@ const handleEditChange = (e) => {
         <p className="badge red-badge "> Assurance expirée!</p>
       )}
       {voiture.days_left < 7 && voiture.days_left > 0 && (
-        <p className="badge orange-badge "> {voiture.days_left} jours</p>
+        <p className="badge orange-badge"> {voiture.days_left} jours</p>
       )}
       {/* Assurance expirée! Assurance expire bientôt! */}
     </div>
   )}
 </td>
 <td className="py-2 px-4 border-b">
-  <p>
-    {voiture.contrats.length === 0 ? (
+  
+  {voiture.latest_contrat ? (
+    <p>
+      {new Date(voiture.latest_contrat.date_debut) <= new Date() && new Date(voiture.latest_contrat.date_fin) >= new Date() ? (
+        <>
+          <span className="badge orange-badge">En cours de location / {new Date(voiture.latest_contrat.date_fin).toLocaleDateString(undefined, { month: 'long', day: 'numeric' })}</span> 
+          {/* <span className="badge orange-badge"></span> */}
+        </>
+      ) : (
+        <span className="badge green-badge">Pas de location</span>
+      )}
+    </p>
+  ) : (
+    <span className="badge green-badge">Pas de location (0)</span>
+  )}
+    {/* {voiture.contrats.length === 0 ? (
       <span className="badge green-badge">Disponible à la location</span>
     ) : (
       voiture.contrats.map((contrat, index) => (
@@ -503,24 +572,25 @@ const handleEditChange = (e) => {
           )}
         </p>
       ))
-    )}
-  </p>
+    )} */}
+  
 </td>
+
                 <td className="py-2 px-4 border-b flex space-x-2">
                   <Link to={`/voiture-details/${voiture.id}`} className="button bg-blue-500 text-black py-1 px-3 rounded hover:bg-blue-700">
-                    Details
+                  <i className="fa-regular fa-eye"></i> Details
                   </Link>
                   <button
                     onClick={() => openEditModal(voiture)}
                     className="edit-button bg-yellow-500 text-black py-1 px-3 rounded hover:bg-yellow-700"
                   >
-                    Edit
+                    <i className="fa-solid fa-pen-to-square"></i> Edit
                   </button>
                   <button
                     onClick={() => handleDelete(voiture.id)}
-                    className="delete-button bg-red-500 text-black py-1 px-3 rounded hover:bg-red-700"
+                    className="delete-button bg-red-500 text-black py-1 px-3 rounded hover:bg-red-700 "
                   >
-                    Delete
+                    <i className="fa-solid fa-trash"></i> Delete
                   </button>
                 </td>
               </tr>

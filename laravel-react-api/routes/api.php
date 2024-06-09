@@ -3,10 +3,11 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ClientController;
-use App\Http\Controllers\VoitureController;
 use App\Http\Controllers\MarqueController;
-use App\Http\Controllers\CarburantController;
 use App\Http\Controllers\ContratController;
+use App\Http\Controllers\FactureController;
+use App\Http\Controllers\VoitureController;
+use App\Http\Controllers\CarburantController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -45,3 +46,10 @@ Route::post('/contrats', [ContratController::class, 'store']);
 Route::get('/contrats/{id}', [ContratController::class, 'show']);
 Route::put('/contrats/{id}', [ContratController::class, 'update']); 
 Route::delete('/contrats/{id}', [ContratController::class, 'destroy']);
+
+
+Route::get('/factures', [FactureController::class, 'index']); 
+Route::post('/factures', [FactureController::class, 'store']); 
+Route::get('/factures/{id}', [FactureController::class, 'show']);
+Route::put('/factures/{id}', [FactureController::class, 'update']); 
+Route::delete('/factures/{id}', [FactureController::class, 'destroy']);

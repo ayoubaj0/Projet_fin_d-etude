@@ -106,12 +106,14 @@
   }
   
   .edit-button {
-    background-color: #ecc94b;
-    color: #2d3748;
+    background-color: #fea218;
+    /* color: #2d3748; */
+    color: white;
+
   }
   
   .edit-button:hover {
-    background-color: #d69e2e;
+    background-color: #ff9900;
   }
   
   .delete-button {
@@ -191,7 +193,7 @@
 
 /* Orange badge */
 .orange-badge {
-  padding: 0.4rem 30px;
+  padding: 0.4rem 10px;
 
   background-color: #ffebcc;
   color: #ff9900;
@@ -200,7 +202,7 @@
 
 /* Green badge */
 .green-badge {
-  padding: 0.4rem 24px;
+  padding: 0.4rem 14px;
 
   background-color: #ccffcc;
   color: #009900;

@@ -11,26 +11,26 @@ const Home = () => {
     </div>
     <div class="flex mx-auto flex-grow mt-4 flex-col text-gray-400 space-y-4">
       <button class="h-10 w-12 dark:text-gray-500 rounded-md flex items-center justify-center">
-        <svg viewBox="0 0 24 24" class="h-5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <svg viewBox="0 0 24 24" class="h-5" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
           <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
           <polyline points="9 22 9 12 15 12 15 22"></polyline>
         </svg>
       </button>
       <button class="h-10 w-12 dark:bg-gray-700 dark:text-white rounded-md flex items-center justify-center bg-blue-100 text-blue-500">
-        <svg viewBox="0 0 24 24" class="h-5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <svg viewBox="0 0 24 24" class="h-5" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
           <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
           <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
         </svg>
       </button>
       <button class="h-10 w-12 dark:text-gray-500 rounded-md flex items-center justify-center">
-        <svg viewBox="0 0 24 24" class="h-5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <svg viewBox="0 0 24 24" class="h-5" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
           <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
           <line x1="12" y1="11" x2="12" y2="17"></line>
           <line x1="9" y1="14" x2="15" y2="14"></line>
         </svg>
       </button>
       <button class="h-10 w-12 dark:text-gray-500 rounded-md flex items-center justify-center">
-        <svg viewBox="0 0 24 24" class="h-5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <svg viewBox="0 0 24 24" class="h-5" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
           <rect x="3" y="3" width="7" height="7"></rect>
           <rect x="14" y="3" width="7" height="7"></rect>
           <rect x="14" y="14" width="7" height="7"></rect>
@@ -56,7 +56,7 @@ const Home = () => {
             <span class="absolute right-0 -mb-0.5 bottom-0 w-2 h-2 rounded-full bg-green-500 border border-white dark:border-gray-900"></span>
           </span>
           <span class="ml-2">James Smith</span>
-          <svg viewBox="0 0 24 24" class="w-4 ml-1 flex-shrink-0" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <svg viewBox="0 0 24 24" class="w-4 ml-1 flex-shrink-0" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="6 9 12 15 18 9"></polyline>
           </svg>
         </button>
@@ -67,7 +67,7 @@ const Home = () => {
         <div class="text-xs text-gray-400 tracking-wider">USERS</div>
         <div class="relative mt-2">
           <input type="text" class="pl-8 h-9 bg-transparent border border-gray-300 dark:border-gray-700 dark:text-white w-full rounded-md text-sm" placeholder="Search" />
-          <svg viewBox="0 0 24 24" class="w-4 absolute text-gray-400 top-1/2 transform translate-x-0.5 -translate-y-1/2 left-2" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <svg viewBox="0 0 24 24" class="w-4 absolute text-gray-400 top-1/2 transform translate-x-0.5 -translate-y-1/2 left-2" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
             <circle cx="11" cy="11" r="8"></circle>
             <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
           </svg>
@@ -138,7 +138,7 @@ const Home = () => {
                 <div class="text-gray-900 text-lg dark:text-white">$2,794.00</div>
               </div>
               <button class="w-8 h-8 ml-4 text-gray-400 shadow dark:text-gray-400 rounded-full flex items-center justify-center border border-gray-200 dark:border-gray-700">
-                <svg viewBox="0 0 24 24" class="w-4" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <svg viewBox="0 0 24 24" class="w-4" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
                   <circle cx="12" cy="12" r="1"></circle>
                   <circle cx="19" cy="12" r="1"></circle>
                   <circle cx="5" cy="12" r="1"></circle>
@@ -157,32 +157,32 @@ const Home = () => {
         <div class="sm:p-7 p-4">
           <div class="flex w-full items-center mb-7">
             <button class="inline-flex mr-3 items-center h-8 pl-2.5 pr-2 rounded-md shadow text-gray-700 dark:text-gray-400 dark:border-gray-800 border border-gray-200 leading-none py-0">
-              <svg viewBox="0 0 24 24" class="w-4 mr-2 text-gray-400 dark:text-gray-600" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <svg viewBox="0 0 24 24" class="w-4 mr-2 text-gray-400 dark:text-gray-600" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
                 <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
                 <line x1="16" y1="2" x2="16" y2="6"></line>
                 <line x1="8" y1="2" x2="8" y2="6"></line>
                 <line x1="3" y1="10" x2="21" y2="10"></line>
               </svg>
               Last 30 days
-              <svg viewBox="0 0 24 24" class="w-4 ml-1.5 text-gray-400 dark:text-gray-600" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <svg viewBox="0 0 24 24" class="w-4 ml-1.5 text-gray-400 dark:text-gray-600" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
                 <polyline points="6 9 12 15 18 9"></polyline>
               </svg>
             </button>
             <button class="inline-flex items-center h-8 pl-2.5 pr-2 rounded-md shadow text-gray-700 dark:text-gray-400 dark:border-gray-800 border border-gray-200 leading-none py-0">
               Filter by
-              <svg viewBox="0 0 24 24" class="w-4 ml-1.5 text-gray-400 dark:text-gray-600" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <svg viewBox="0 0 24 24" class="w-4 ml-1.5 text-gray-400 dark:text-gray-600" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
                 <polyline points="6 9 12 15 18 9"></polyline>
               </svg>
             </button>
             <div class="ml-auto text-gray-500 text-xs sm:inline-flex hidden items-center">
               <span class="mr-3">Page 2 of 4</span>
               <button class="inline-flex mr-2 items-center h-8 w-8 justify-center text-gray-400 rounded-md shadow border border-gray-200 dark:border-gray-800 leading-none py-0">
-                <svg class="w-4" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <svg class="w-4" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
                   <polyline points="15 18 9 12 15 6"></polyline>
                 </svg>
               </button>
               <button class="inline-flex items-center h-8 w-8 justify-center text-gray-400 rounded-md shadow border border-gray-200 dark:border-gray-800 leading-none py-0">
-                <svg class="w-4" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <svg class="w-4" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
                   <polyline points="9 18 15 12 9 6"></polyline>
                 </svg>
               </button>
@@ -202,7 +202,7 @@ const Home = () => {
               <tr>
                 <td class="sm:p-3 py-2 px-1 border-b border-gray-200 dark:border-gray-800">
                   <div class="flex items-center">
-                    <svg viewBox="0 0 24 24" class="w-4 mr-5 text-yellow-500" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <svg viewBox="0 0 24 24" class="w-4 mr-5 text-yellow-500" stroke="currentColor" strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round">
                       <circle cx="12" cy="12" r="10"></circle>
                       <line x1="12" y1="8" x2="12" y2="12"></line>
                       <line x1="12" y1="16" x2="12.01" y2="16"></line>
@@ -228,7 +228,7 @@ const Home = () => {
                       <div class="text-gray-400 text-xs">11:16 AM</div>
                     </div>
                     <button class="w-8 h-8 inline-flex items-center justify-center text-gray-400 ml-auto">
-                      <svg viewBox="0 0 24 24" class="w-5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                      <svg viewBox="0 0 24 24" class="w-5" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
                         <circle cx="12" cy="12" r="1"></circle>
                         <circle cx="19" cy="12" r="1"></circle>
                         <circle cx="5" cy="12" r="1"></circle>
@@ -240,7 +240,7 @@ const Home = () => {
               <tr>
                 <td class="sm:p-3 py-2 px-1 border-b border-gray-200 dark:border-gray-800">
                   <div class="flex items-center">
-                    <svg viewBox="0 0 24 24" class="w-4 mr-5 text-gray-400" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <svg viewBox="0 0 24 24" class="w-4 mr-5 text-gray-400" stroke="currentColor" strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round">
                       <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
                       <line x1="1" y1="10" x2="23" y2="10"></line>
                     </svg>
@@ -267,7 +267,7 @@ const Home = () => {
                       <div class="text-gray-400 text-xs">07:16 AM</div>
                     </div>
                     <button class="w-8 h-8 inline-flex items-center justify-center text-gray-400 ml-auto">
-                      <svg viewBox="0 0 24 24" class="w-5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                      <svg viewBox="0 0 24 24" class="w-5" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
                         <circle cx="12" cy="12" r="1"></circle>
                         <circle cx="19" cy="12" r="1"></circle>
                         <circle cx="5" cy="12" r="1"></circle>
@@ -279,7 +279,7 @@ const Home = () => {
               <tr>
                 <td class="sm:p-3 py-2 px-1 border-b border-gray-200 dark:border-gray-800">
                   <div class="flex items-center">
-                    <svg viewBox="0 0 24 24" class="w-4 mr-5 text-gray-400" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <svg viewBox="0 0 24 24" class="w-4 mr-5 text-gray-400" stroke="currentColor" strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round">
                       <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
                       <line x1="1" y1="10" x2="23" y2="10"></line>
                     </svg>
@@ -306,7 +306,7 @@ const Home = () => {
                       <div class="text-gray-400 text-xs">11:03 AM</div>
                     </div>
                     <button class="w-8 h-8 inline-flex items-center justify-center text-gray-400 ml-auto">
-                      <svg viewBox="0 0 24 24" class="w-5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                      <svg viewBox="0 0 24 24" class="w-5" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
                         <circle cx="12" cy="12" r="1"></circle>
                         <circle cx="19" cy="12" r="1"></circle>
                         <circle cx="5" cy="12" r="1"></circle>
@@ -318,7 +318,7 @@ const Home = () => {
               <tr>
                 <td class="sm:p-3 py-2 px-1 border-b border-gray-200 dark:border-gray-800">
                   <div class="flex items-center">
-                    <svg viewBox="0 0 24 24" class="w-4 mr-5 text-green-500" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <svg viewBox="0 0 24 24" class="w-4 mr-5 text-green-500" stroke="currentColor" strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round">
                       <line x1="12" y1="5" x2="12" y2="19"></line>
                       <polyline points="19 12 12 19 5 12"></polyline>
                     </svg>
@@ -340,7 +340,7 @@ const Home = () => {
                       <div class="text-gray-400 text-xs">09:45 AM</div>
                     </div>
                     <button class="w-8 h-8 inline-flex items-center justify-center text-gray-400 ml-auto">
-                      <svg viewBox="0 0 24 24" class="w-5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                      <svg viewBox="0 0 24 24" class="w-5" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
                         <circle cx="12" cy="12" r="1"></circle>
                         <circle cx="19" cy="12" r="1"></circle>
                         <circle cx="5" cy="12" r="1"></circle>
@@ -352,7 +352,7 @@ const Home = () => {
               <tr>
                 <td class="sm:p-3 py-2 px-1 border-b border-gray-200 dark:border-gray-800">
                   <div class="flex items-center">
-                    <svg viewBox="0 0 24 24" class="w-4 mr-5 text-gray-400" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <svg viewBox="0 0 24 24" class="w-4 mr-5 text-gray-400" stroke="currentColor" strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round">
                       <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
                       <line x1="1" y1="10" x2="23" y2="10"></line>
                     </svg>
@@ -378,7 +378,7 @@ const Home = () => {
                       <div class="text-gray-400 text-xs">10:29 AM</div>
                     </div>
                     <button class="w-8 h-8 inline-flex items-center justify-center text-gray-400 ml-auto">
-                      <svg viewBox="0 0 24 24" class="w-5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                      <svg viewBox="0 0 24 24" class="w-5" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
                         <circle cx="12" cy="12" r="1"></circle>
                         <circle cx="19" cy="12" r="1"></circle>
                         <circle cx="5" cy="12" r="1"></circle>
@@ -390,7 +390,7 @@ const Home = () => {
               <tr>
                 <td class="sm:p-3 py-2 px-1 border-b border-gray-200 dark:border-gray-800">
                   <div class="flex items-center">
-                    <svg viewBox="0 0 24 24" class="w-4 mr-5 text-gray-400" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <svg viewBox="0 0 24 24" class="w-4 mr-5 text-gray-400" stroke="currentColor" strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round">
                       <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
                       <line x1="1" y1="10" x2="23" y2="10"></line>
                     </svg>
@@ -414,7 +414,7 @@ const Home = () => {
                       <div class="text-gray-400 text-xs">10:29 AM</div>
                     </div>
                     <button class="w-8 h-8 inline-flex items-center justify-center text-gray-400 ml-auto">
-                      <svg viewBox="0 0 24 24" class="w-5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                      <svg viewBox="0 0 24 24" class="w-5" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
                         <circle cx="12" cy="12" r="1"></circle>
                         <circle cx="19" cy="12" r="1"></circle>
                         <circle cx="5" cy="12" r="1"></circle>
@@ -426,7 +426,7 @@ const Home = () => {
               <tr>
                 <td class="sm:p-3 py-2 px-1 border-b border-gray-200 dark:border-gray-800">
                   <div class="flex items-center">
-                    <svg viewBox="0 0 24 24" class="w-4 mr-5 text-gray-400" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <svg viewBox="0 0 24 24" class="w-4 mr-5 text-gray-400" stroke="currentColor" strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round">
                       <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
                       <line x1="1" y1="10" x2="23" y2="10"></line>
                     </svg>
@@ -455,7 +455,7 @@ const Home = () => {
                       <div class="text-gray-400 text-xs">11:00 AM</div>
                     </div>
                     <button class="w-8 h-8 inline-flex items-center justify-center text-gray-400 ml-auto">
-                      <svg viewBox="0 0 24 24" class="w-5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                      <svg viewBox="0 0 24 24" class="w-5" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
                         <circle cx="12" cy="12" r="1"></circle>
                         <circle cx="19" cy="12" r="1"></circle>
                         <circle cx="5" cy="12" r="1"></circle>
@@ -467,7 +467,7 @@ const Home = () => {
               <tr>
                 <td class="sm:p-3 py-2 px-1 border-b border-gray-200 dark:border-gray-800">
                   <div class="flex items-center">
-                    <svg viewBox="0 0 24 24" class="w-4 mr-5 text-green-500" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <svg viewBox="0 0 24 24" class="w-4 mr-5 text-green-500" stroke="currentColor" strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round">
                       <line x1="12" y1="5" x2="12" y2="19"></line>
                       <polyline points="19 12 12 19 5 12"></polyline>
                     </svg>
@@ -489,7 +489,7 @@ const Home = () => {
                       <div class="text-gray-400 text-xs">09:45 AM</div>
                     </div>
                     <button class="w-8 h-8 inline-flex items-center justify-center text-gray-400 ml-auto">
-                      <svg viewBox="0 0 24 24" class="w-5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                      <svg viewBox="0 0 24 24" class="w-5" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
                         <circle cx="12" cy="12" r="1"></circle>
                         <circle cx="19" cy="12" r="1"></circle>
                         <circle cx="5" cy="12" r="1"></circle>
@@ -501,7 +501,7 @@ const Home = () => {
               <tr>
                 <td class="sm:p-3 py-2 px-1 border-b border-gray-200 dark:border-gray-800">
                   <div class="flex items-center">
-                    <svg viewBox="0 0 24 24" class="w-4 mr-5 text-yellow-500" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <svg viewBox="0 0 24 24" class="w-4 mr-5 text-yellow-500" stroke="currentColor" strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round">
                       <circle cx="12" cy="12" r="10"></circle>
                       <line x1="12" y1="8" x2="12" y2="12"></line>
                       <line x1="12" y1="16" x2="12.01" y2="16"></line>
@@ -527,7 +527,7 @@ const Home = () => {
                       <div class="text-gray-400 text-xs">11:16 AM</div>
                     </div>
                     <button class="w-8 h-8 inline-flex items-center justify-center text-gray-400 ml-auto">
-                      <svg viewBox="0 0 24 24" class="w-5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                      <svg viewBox="0 0 24 24" class="w-5" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
                         <circle cx="12" cy="12" r="1"></circle>
                         <circle cx="19" cy="12" r="1"></circle>
                         <circle cx="5" cy="12" r="1"></circle>
@@ -539,7 +539,7 @@ const Home = () => {
               <tr>
                 <td class="sm:p-3 py-2 px-1 border-b border-gray-200 dark:border-gray-800">
                   <div class="flex items-center">
-                    <svg viewBox="0 0 24 24" class="w-4 mr-5 text-gray-400" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <svg viewBox="0 0 24 24" class="w-4 mr-5 text-gray-400" stroke="currentColor" strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round">
                       <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
                       <line x1="1" y1="10" x2="23" y2="10"></line>
                     </svg>
@@ -566,7 +566,7 @@ const Home = () => {
                       <div class="text-gray-400 text-xs">07:16 AM</div>
                     </div>
                     <button class="w-8 h-8 inline-flex items-center justify-center text-gray-400 ml-auto">
-                      <svg viewBox="0 0 24 24" class="w-5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                      <svg viewBox="0 0 24 24" class="w-5" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
                         <circle cx="12" cy="12" r="1"></circle>
                         <circle cx="19" cy="12" r="1"></circle>
                         <circle cx="5" cy="12" r="1"></circle>
@@ -578,7 +578,7 @@ const Home = () => {
               <tr>
                 <td class="sm:p-3 py-2 px-1 border-b border-gray-200 dark:border-gray-800">
                   <div class="flex items-center">
-                    <svg viewBox="0 0 24 24" class="w-4 mr-5 text-gray-400" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <svg viewBox="0 0 24 24" class="w-4 mr-5 text-gray-400" stroke="currentColor" strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round">
                       <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
                       <line x1="1" y1="10" x2="23" y2="10"></line>
                     </svg>
@@ -605,7 +605,7 @@ const Home = () => {
                       <div class="text-gray-400 text-xs">11:03 AM</div>
                     </div>
                     <button class="w-8 h-8 inline-flex items-center justify-center text-gray-400 ml-auto">
-                      <svg viewBox="0 0 24 24" class="w-5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                      <svg viewBox="0 0 24 24" class="w-5" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
                         <circle cx="12" cy="12" r="1"></circle>
                         <circle cx="19" cy="12" r="1"></circle>
                         <circle cx="5" cy="12" r="1"></circle>
@@ -617,7 +617,7 @@ const Home = () => {
               <tr>
                 <td class="sm:p-3 py-2 px-1 border-b border-gray-200 dark:border-gray-800">
                   <div class="flex items-center">
-                    <svg viewBox="0 0 24 24" class="w-4 mr-5 text-green-500" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <svg viewBox="0 0 24 24" class="w-4 mr-5 text-green-500" stroke="currentColor" strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round">
                       <line x1="12" y1="5" x2="12" y2="19"></line>
                       <polyline points="19 12 12 19 5 12"></polyline>
                     </svg>
@@ -639,7 +639,7 @@ const Home = () => {
                       <div class="text-gray-400 text-xs">09:45 AM</div>
                     </div>
                     <button class="w-8 h-8 inline-flex items-center justify-center text-gray-400 ml-auto">
-                      <svg viewBox="0 0 24 24" class="w-5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                      <svg viewBox="0 0 24 24" class="w-5" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
                         <circle cx="12" cy="12" r="1"></circle>
                         <circle cx="19" cy="12" r="1"></circle>
                         <circle cx="5" cy="12" r="1"></circle>
@@ -651,7 +651,7 @@ const Home = () => {
               <tr>
                 <td class="sm:p-3 py-2 px-1 border-b border-gray-200 dark:border-gray-800">
                   <div class="flex items-center">
-                    <svg viewBox="0 0 24 24" class="w-4 mr-5 text-gray-400" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <svg viewBox="0 0 24 24" class="w-4 mr-5 text-gray-400" stroke="currentColor" strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round">
                       <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
                       <line x1="1" y1="10" x2="23" y2="10"></line>
                     </svg>
@@ -677,7 +677,7 @@ const Home = () => {
                       <div class="text-gray-400 text-xs">10:29 AM</div>
                     </div>
                     <button class="w-8 h-8 inline-flex items-center justify-center text-gray-400 ml-auto">
-                      <svg viewBox="0 0 24 24" class="w-5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                      <svg viewBox="0 0 24 24" class="w-5" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
                         <circle cx="12" cy="12" r="1"></circle>
                         <circle cx="19" cy="12" r="1"></circle>
                         <circle cx="5" cy="12" r="1"></circle>
@@ -689,7 +689,7 @@ const Home = () => {
               <tr>
                 <td class="sm:p-3 py-2 px-1 border-b border-gray-200 dark:border-gray-800">
                   <div class="flex items-center">
-                    <svg viewBox="0 0 24 24" class="w-4 mr-5 text-gray-400" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <svg viewBox="0 0 24 24" class="w-4 mr-5 text-gray-400" stroke="currentColor" strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round">
                       <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
                       <line x1="1" y1="10" x2="23" y2="10"></line>
                     </svg>
@@ -713,7 +713,7 @@ const Home = () => {
                       <div class="text-gray-400 text-xs">10:29 AM</div>
                     </div>
                     <button class="w-8 h-8 inline-flex items-center justify-center text-gray-400 ml-auto">
-                      <svg viewBox="0 0 24 24" class="w-5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                      <svg viewBox="0 0 24 24" class="w-5" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
                         <circle cx="12" cy="12" r="1"></circle>
                         <circle cx="19" cy="12" r="1"></circle>
                         <circle cx="5" cy="12" r="1"></circle>
@@ -725,7 +725,7 @@ const Home = () => {
               <tr>
                 <td class="sm:p-3 py-2 px-1 border-b border-gray-200 dark:border-gray-800">
                   <div class="flex items-center">
-                    <svg viewBox="0 0 24 24" class="w-4 mr-5 text-gray-400" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <svg viewBox="0 0 24 24" class="w-4 mr-5 text-gray-400" stroke="currentColor" strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round">
                       <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
                       <line x1="1" y1="10" x2="23" y2="10"></line>
                     </svg>
@@ -754,7 +754,7 @@ const Home = () => {
                       <div class="text-gray-400 text-xs">11:00 AM</div>
                     </div>
                     <button class="w-8 h-8 inline-flex items-center justify-center text-gray-400 ml-auto">
-                      <svg viewBox="0 0 24 24" class="w-5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                      <svg viewBox="0 0 24 24" class="w-5" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
                         <circle cx="12" cy="12" r="1"></circle>
                         <circle cx="19" cy="12" r="1"></circle>
                         <circle cx="5" cy="12" r="1"></circle>
@@ -766,7 +766,7 @@ const Home = () => {
               <tr>
                 <td class="sm:p-3 py-2 px-1 border-b border-gray-200 dark:border-gray-800">
                   <div class="flex items-center">
-                    <svg viewBox="0 0 24 24" class="w-4 mr-5 text-green-500" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <svg viewBox="0 0 24 24" class="w-4 mr-5 text-green-500" stroke="currentColor" strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round">
                       <line x1="12" y1="5" x2="12" y2="19"></line>
                       <polyline points="19 12 12 19 5 12"></polyline>
                     </svg>
@@ -788,7 +788,7 @@ const Home = () => {
                       <div class="text-gray-400 text-xs">09:45 AM</div>
                     </div>
                     <button class="w-8 h-8 inline-flex items-center justify-center text-gray-400 ml-auto">
-                      <svg viewBox="0 0 24 24" class="w-5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                      <svg viewBox="0 0 24 24" class="w-5" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
                         <circle cx="12" cy="12" r="1"></circle>
                         <circle cx="19" cy="12" r="1"></circle>
                         <circle cx="5" cy="12" r="1"></circle>
@@ -801,7 +801,7 @@ const Home = () => {
           </table>
           <div class="flex w-full mt-5 space-x-2 justify-end">
             <button class="inline-flex items-center h-8 w-8 justify-center text-gray-400 rounded-md shadow border border-gray-200 dark:border-gray-800 leading-none">
-              <svg class="w-4" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <svg class="w-4" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
                 <polyline points="15 18 9 12 15 6"></polyline>
               </svg>
             </button>
@@ -810,7 +810,7 @@ const Home = () => {
             <button class="inline-flex items-center h-8 w-8 justify-center text-gray-500 rounded-md shadow border border-gray-200 dark:border-gray-800 leading-none">3</button>
             <button class="inline-flex items-center h-8 w-8 justify-center text-gray-500 rounded-md shadow border border-gray-200 dark:border-gray-800 leading-none">4</button>
             <button class="inline-flex items-center h-8 w-8 justify-center text-gray-400 rounded-md shadow border border-gray-200 dark:border-gray-800 leading-none">
-              <svg class="w-4" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <svg class="w-4" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
                 <polyline points="9 18 15 12 9 6"></polyline>
               </svg>
             </button>

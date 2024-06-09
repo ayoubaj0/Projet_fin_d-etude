@@ -28,6 +28,10 @@ class Voiture extends Model
     {
         return $this->hasOne(Assurance::class)->latest();
     }
+    public function latestContrat()
+    {
+        return $this->hasOne(Contrat::class)->latest();
+    }
     public function assurances()
     {
         return $this->hasMany(Assurance::class);

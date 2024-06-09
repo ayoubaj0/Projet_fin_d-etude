@@ -13,7 +13,7 @@ class VoitureController extends Controller
      */
     public function index()
 {
-    $voitures = Voiture::with(['latestAssurance', 'contrats', 'marque', 'carburant'])->get();
+    $voitures = Voiture::with(['latestAssurance', 'latestContrat', 'contrats', 'marque', 'carburant'])->get();
     foreach ($voitures as $voiture) {
         if ($voiture->latestAssurance) {
             $endDate = Carbon::parse($voiture->latestAssurance->date_fin);
