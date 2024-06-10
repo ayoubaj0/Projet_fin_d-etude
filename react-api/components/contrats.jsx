@@ -165,7 +165,7 @@ function Contrats() {
   return (
     <div className="container">
       <h1 className=" title content">Contrats</h1>
-      <button className="button" onClick={() => setIsModalOpen(true)}>Ajouter Contrat</button>
+      <button className="button" onClick={() => setIsModalOpen(true)}> <i className="fa-solid fa-plus"></i>Ajouter Contrat</button>
       <div className='content'>
   <h2 className="title text-xl mb-4">Filtrer Contrats</h2>
   <div className=" flex justify-evenly  w-full mb-4">
@@ -412,13 +412,13 @@ function Contrats() {
             onClick={() => handleEdit(contrat)}
             className="edit-button bg-yellow-500 text-black py-1 px-3 rounded hover:bg-yellow-700"
           >
-            Edit
+            <i className="fa-solid fa-pen-to-square"></i> Edit
           </button>
           <button
             onClick={() => handleDelete(contrat.id)}
             className="delete-button bg-red-500 text-black py-1 px-3 rounded hover:bg-red-700"
           >
-            Delete
+            <i className="fa-solid fa-trash"></i> Delete
           </button>
         </td>
       </tr>

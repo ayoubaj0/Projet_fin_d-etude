@@ -54,7 +54,14 @@ class VoitureController extends Controller
             'carburant_id' => 'required|exists:carburants,id',
             'marque_id' => 'required|exists:marques,id',
             'disponible' => 'required|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
+
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('images', 'public');
+            $data['image'] = $path;
+        }
+
         $voiture = Voiture::create($data);
     
         // $voiture = Voiture::create($request->all());
@@ -109,12 +116,23 @@ class VoitureController extends Controller
             'carburant_id' => 'required|exists:carburants,id',
             'marque_id' => 'required|exists:marques,id',
             'disponible' => 'required|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
         $voiture = Voiture::find($id);
+        
 
         if (is_null($voiture)) {
             return response()->json(['message' => 'Voiture not found'], 404);
+        }
+
+        if ($request->hasFile('image')) {
+            if ($voiture->image) {
+                Storage::disk('public')->delete($voiture->image);
+            }
+
+            $path = $request->file('image')->store('images', 'public');
+            $data['image'] = $path;
         }
 
         $voiture->update($data);

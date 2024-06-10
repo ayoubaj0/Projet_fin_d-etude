@@ -8,6 +8,7 @@ function Clients() {
   const [clients, setClients] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [searchCIN, setSearchCIN] = useState('');
   const [newClient, setNewClient] = useState({
     cin: '',
     n_passport: '',
@@ -119,6 +120,11 @@ function Clients() {
     setIsEditModalOpen(true);
   };
 
+  const filteredClients = clients.filter(client => {
+    return client.cin.toLowerCase().includes(searchCIN.toLowerCase()) ||
+           (client.n_passport && client.n_passport.toLowerCase().includes(searchCIN.toLowerCase()));
+  });
+
   return (
     // <div className="p-6 bg-red min-h-screen flex flex-col items-center">
     //   <h1 className="text-3xl font-bold mb-4 text-gray-800 border-5">Clients</h1>
@@ -127,7 +133,16 @@ function Clients() {
     //   </button>
       <div className="container">
   <h1 className="title content">Clients</h1>
-  <button className="button" onClick={() => setIsModalOpen(true)}>Ajouter Client</button>
+  <div className="my-4">
+        <input
+          type="text"
+          placeholder="Recherch par CIN ou passport"
+          value={searchCIN}
+          onChange={(e) => setSearchCIN(e.target.value)}
+          className="p-2 border rounded w-full"
+        />
+      </div>
+  <button className="button" onClick={() => setIsModalOpen(true)}> <i className="fa-solid fa-plus"></i>Ajouter Client</button>
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <h2 className="text-2xl mb-4">Ajouter Client</h2>
         <form onSubmit={handleSubmit}>
@@ -289,7 +304,7 @@ function Clients() {
             </tr>
           </thead>
           <tbody>
-            {clients.map(client => (
+            {filteredClients.map(client => (
               <tr key={client.id} className="hover:bg-gray-100 transition duration-200">
                 <td className="py-2 px-4 border-b">{client.id}</td>
                 <td className="py-2 px-4 border-b">{client.cin}</td>
@@ -303,13 +318,13 @@ function Clients() {
                     onClick={() => openEditModal(client)}
                     className="edit-button bg-yellow-500 text-black py-1 px-3 rounded hover:bg-yellow-700"
                   >
-                    Edit
+                    <i className="fa-solid fa-pen-to-square"></i> Edit
                   </button>
                   <button
                     onClick={() => handleDelete(client.id)}
                     className=" delete-button bg-red-500 text-black py-1 px-3 rounded hover:bg-red-700"
                   >
-                    Delete
+                    <i className="fa-solid fa-trash"></i> Delete
                   </button>
                 </td>
               </tr>

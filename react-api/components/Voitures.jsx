@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Modal from './Modal';
 import { Link } from 'react-router-dom';
+import * as XLSX from 'xlsx';
 import './modal.css';
 import '../src/index.css';
 function Voitures() {
@@ -17,7 +18,8 @@ function Voitures() {
     prix_par_jour: '',
     carburant_id: '',
     marque_id: '',
-    disponible: ''
+    disponible: '',
+    image: null,
     
   });
   const [editVoiture, setEditVoiture] = useState({
@@ -28,9 +30,12 @@ function Voitures() {
     prix_par_jour: '',
     carburant_id: '',
     marque_id: '',
-    disponible: ''
+    disponible: '',
+    image: null,
+
   });
   const [filter, setFilter] = useState({
+    matricule: '',
     carburant_id: '',
     marque_id: '',
     disponible: '',
@@ -84,6 +89,7 @@ function Voitures() {
     console.log("Days left:", voiture.days_left);
     console.log("Assurance status filter:", filter.assurance_status);
     return (
+      (filter.matricule === '' || voiture.matricule.toLowerCase().includes(filter.matricule.toLowerCase())) &&
       (filter.carburant_id === '' || voiture.carburant_id === parseInt(filter.carburant_id)) &&
       (filter.marque_id === '' || voiture.marque_id === parseInt(filter.marque_id)) &&
       (filter.disponible === '' || voiture.disponible === filter.disponible) &&
@@ -228,6 +234,29 @@ const handleEditChange = (e) => {
     setEditVoiture(voiture);
     setIsEditModalOpen(true);
   };
+
+  const exportToExcel = () => {
+    const worksheet = XLSX.utils.json_to_sheet(filteredVoitures.map(voiture => ({
+      ID: voiture.id,
+      Matricule: voiture.matricule,
+      'Nbr Chevaux': voiture.nbr_chevaux,
+      Kilometrage: voiture.kilometrage,
+      'Prix par Jour': voiture.prix_par_jour,
+      'Carburant Type': voiture.carburant.label,
+      Marque: voiture.marque.label,
+      'État du Véhicule': voiture.disponible === "0" ? "Endommagée" : "Bon état",
+      'Jours Restants pour l\'Assurance': voiture.days_left,
+      'État de la Voiture en Location': voiture.latest_contrat ? 
+        (new Date(voiture.latest_contrat.date_debut) <= new Date() && new Date(voiture.latest_contrat.date_fin) >= new Date() ? 
+        `En cours de location jusqu'à ${new Date(voiture.latest_contrat.date_fin).toLocaleDateString(undefined, { month: 'long', day: 'numeric' })}` : 
+        "Pas de location") : "Pas de location (0)"
+    })));
+    
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Voitures");
+
+    XLSX.writeFile(workbook, "Voitures.xlsx");
+  };
   
 
   return (
@@ -236,35 +265,37 @@ const handleEditChange = (e) => {
       <button className="button" onClick={() => setIsModalOpen(true)}><i className="fa-solid fa-plus"></i> Ajouter Voiture</button>
       <div className="content filter-container">
         <h1 className='title'>Filters : </h1>
+        
         <select name="carburant_id" value={filter.carburant_id} onChange={handleFilterChange} className="filter-select">
-          <option value="">Tous les carburants</option>
+          <option value="">--Tous les carburants--</option>
           {carburants.map(carburant => (
             <option key={carburant.id} value={carburant.id}>{carburant.label}</option>
           ))}
         </select>
         <select name="marque_id" value={filter.marque_id} onChange={handleFilterChange} className="filter-select">
-          <option value="">Toutes les marques</option>
+          <option value="">--Toutes les marques--</option>
           {marques.map(marque => (
             <option key={marque.id} value={marque.id}>{marque.label}</option>
           ))}
         </select>
         <select name="disponible" value={filter.disponible} onChange={handleFilterChange} className="filter-select">
-          <option value="">État du véhicule</option>
+          <option value="">--État du véhicule--</option>
           <option value="1">Bon état</option>
           <option value="0">Endommagée</option>
         </select>
         <select name="assurance_status" value={filter.assurance_status} onChange={handleFilterChange} className="filter-select">
-          <option value="">Assurance</option>
+          <option value="">--Assurance--</option>
           <option value="expiree">Expirée</option>
           <option value="expiree_bientot">Expire bientôt</option>
           <option value="boon">Bonne</option>
         </select>
         <select name="etat_location" value={filter.etat_location} onChange={handleFilterChange} className="filter-select">
-        <option value="">État de la location</option>
+        <option value="">--État de la location--</option>
         <option value="en_cours">En cours de location</option>
         <option value="disponible">Disponible à la location</option>
       </select>
       <div className="m-4 flex ">
+        
   <input
     type="checkbox"
     id="disponibleFilter"
@@ -278,6 +309,14 @@ const handleEditChange = (e) => {
       En bon état | Avec assurance &gt;7j | Pas de location
     </span>
   </label>
+  <input
+          type="text"
+          name="matricule"
+          value={filter.matricule}
+          onChange={handleFilterChange}
+          placeholder="Search by Matricule"
+          className="filter-input border"
+        />
 </div>
 
 
@@ -492,6 +531,9 @@ const handleEditChange = (e) => {
         </form>
       </Modal>
       <div className="overflow-x-auto">
+      <button onClick={exportToExcel} className="button export-button bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700">
+        Export to Excel
+      </button>
         <table className="table min-w-full bg-white rounded-lg shadow-md">
           <thead className="bg-gray-200">
             <tr>

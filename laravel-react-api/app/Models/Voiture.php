@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Voiture extends Model
 {
     use HasFactory;
-    protected $fillable =["id" ,"matricule" ,"nbr_chevaux" ,"kilometrage" ,"prix_par_jour" ,"carburant_id" ,"marque_id" ,"disponible"];
+    protected $fillable =["id" ,"matricule" ,"nbr_chevaux" ,"kilometrage" ,"prix_par_jour" ,"carburant_id" ,"marque_id" ,"disponible","image",];
 
     public function carburant()
     {

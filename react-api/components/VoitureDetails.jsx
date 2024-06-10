@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import Modal from './Modal'; // Assuming you have a Modal component
+import * as XLSX from 'xlsx';
+import Modal from './Modal'; 
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 import './modal.css';
 import '../src/index.css';
 
@@ -21,6 +24,7 @@ function VoitureDetails() {
   const [isEditAssuranceModalOpen, setIsEditAssuranceModalOpen] = useState(false);
   const [clients, setClients] = useState([]);
   const { id } = useParams();
+  const [totalFactureAmount, setTotalFactureAmount] = useState(0); 
   const [newContrat, setNewContrat] = useState({
     client_id: '',
     voiture_id: id,
@@ -38,7 +42,7 @@ function VoitureDetails() {
   });
   const [newFacture, setNewFacture] = useState({
     contrat_id: '',
-    date_facture: '',
+    date_facture: new Date().toISOString().split('T')[0],    
     montant_total: ''
   });
   const [editFacture, setEditFacture] = useState({
@@ -54,6 +58,7 @@ function VoitureDetails() {
     date_fin: '',
     
   });
+
   const [editAssurance, setEditAssurance] = useState({
     id: '',
     ref: '',
@@ -67,6 +72,19 @@ function VoitureDetails() {
     fetchVoiture();
     fetchClients();
   }, []);
+  useEffect(() => {
+    calculateTotalFactureAmount();
+  }, [voiture]);
+
+  
+  const calculateTotalFactureAmount = () => {
+    if (voiture && voiture.contrats) {
+      const total = voiture.contrats.reduce((acc, contrat) => {
+        return acc + (contrat.facture ? parseFloat(contrat.facture.montant_total) : 0);
+      }, 0);
+      setTotalFactureAmount(total);
+    }
+  };
 
   const fetchVoiture = async () => {
     try {
@@ -181,7 +199,7 @@ function VoitureDetails() {
         setIsFactureModalOpen(false);
         setNewFacture({
           contrat_id: '',
-          date_facture: '',
+          date_facture: new Date().toISOString().split('T')[0],          
           montant_total: ''
         });
       } else {
@@ -278,6 +296,19 @@ function VoitureDetails() {
     setIsEditFactureModalOpen(true);
   };
 
+  
+  
+
+// Use useEffect to log the state after it's set
+// useEffect(() => {
+//     console.log('newFacture state:', newFacture);
+// }, [newFacture]);
+// const handleAjouterFacture = (contratId) => {
+//   setNewFacture({ ...newFacture, contrat_id: contratId });
+//   setIsFactureModalOpen(true);
+// };
+  
+
   const handleEditAssuranceClick = (assurance) => {
     setEditAssurance(assurance);
     setIsEditAssuranceModalOpen(true);
@@ -332,11 +363,135 @@ function VoitureDetails() {
     }
   };
 
+  const exportToExcel = () => {
+    const worksheet = XLSX.utils.json_to_sheet(voiture.contrats.map(contrat => ({
+      'ID Contrat': contrat.id,
+      'Client Nom': `${contrat.client.nom} ${contrat.client.prenom}`,
+      'Date Début': contrat.date_debut,
+      'Date Fin': contrat.date_fin,
+      'Prix Contrat': `${contrat.prix_contrat} DH`,
+      'Facture ID': contrat.facture ? contrat.facture.id : 'N/A',
+      'Date Facture': contrat.facture ? contrat.facture.date_facture : 'N/A',
+      'Montant Total': contrat.facture ? `${contrat.facture.montant_total} DH` : 'N/A'
+    })));
+
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Contrats");
+
+    XLSX.writeFile(workbook, "Contrats.xlsx");
+  };
+  const generatePDF = (contrat, voiture) => {
+    const doc = new jsPDF();
+  
+    // Set document properties
+    doc.setProperties({
+      title: `Facture_${contrat.facture.id}`,
+      subject: 'Détails de la Facture',
+      author: 'PFE_Ayoub_Ajermoun',
+      keywords: 'contrat, véhicule, location',
+      creator: 'PFE_Ayoub_Ajermoun'
+    });
+  
+    // Add title with background color
+    doc.setFillColor(0, 112, 192); // Dark blue
+    doc.rect(10, 10, 190, 15, 'F');
+    doc.setFontSize(20);
+    doc.setTextColor(255, 255, 255); // White
+    doc.text('Détails du Contrat et de la Facture', 15, 22);
+  
+    // Reset text color
+    doc.setTextColor(0, 0, 0); // Black
+  
+    // Contract information header
+    doc.setFontSize(16);
+    doc.setFont('helvetica', 'bold');
+    doc.text('Informations du Contrat', 10, 40);
+  
+    // Contract information details
+    doc.setFontSize(12);
+    doc.setFont('helvetica', 'normal');
+    doc.text(`ID du Contrat: ${contrat.id}`, 10, 50);
+    doc.text(`CIN du Client: ${contrat.client.cin}`, 10, 60);
+    doc.text(`Nom du Client: ${contrat.client.nom} ${contrat.client.prenom}`, 10, 70);
+    doc.text(`Email du Client: ${contrat.client.email}`, 10, 80);
+    doc.text(`Téléphone du Client: ${contrat.client.telephone}`, 10, 90);
+    doc.text(`Date de Début: ${contrat.date_debut}`, 10, 100);
+    doc.text(`Date de Fin: ${contrat.date_fin}`, 10, 110);
+    doc.text(`Prix du Contrat: ${contrat.prix_contrat} DH`, 10, 120);
+  
+    // Add horizontal line
+    doc.setLineWidth(0.5);
+    doc.line(10, 130, 200, 130);
+  
+    // Facture information header
+    doc.setFontSize(16);
+    doc.setFont('helvetica', 'bold');
+    doc.text('Informations de la Facture', 10, 140);
+  
+    // Facture information details
+    doc.setFontSize(12);
+    doc.setFont('helvetica', 'normal');
+    if (contrat.facture) {
+      doc.text(`ID de la Facture: ${contrat.facture.id}`, 10, 150);
+      doc.text(`Date de la Facture: ${contrat.facture.date_facture}`, 10, 160);
+      doc.text(`Montant Total: ${contrat.facture.montant_total} DH`, 10, 170);
+    } else {
+      doc.text(`Aucune Facture Disponible`, 10, 150);
+    }
+  
+    // Add horizontal line
+    doc.line(10, 180, 200, 180);
+  
+    // Vehicle information header with background color
+    doc.setFillColor(0, 112, 192); // Dark blue
+    doc.rect(10, 190, 190, 10, 'F');
+    doc.setFontSize(16);
+    doc.setTextColor(255, 255, 255); // White
+    doc.text('Détails du Véhicule', 15, 198);
+  
+    // Reset text color
+    doc.setTextColor(0, 0, 0); // Black
+  
+    // Vehicle information details
+    doc.setFontSize(12);
+    doc.setFont('helvetica', 'normal');
+    doc.text(`Matricule: ${voiture.matricule}`, 10, 210);
+    doc.text(`Nombre de Chevaux: ${voiture.nbr_chevaux}`, 10, 220);
+    doc.text(`Kilométrage: ${voiture.kilometrage}`, 10, 230);
+    doc.text(`Prix par Jour: ${voiture.prix_par_jour} DH`, 10, 240);
+    doc.text(`Type de Carburant: ${voiture.carburant.label}`, 10, 250);
+    doc.text(`Marque: ${voiture.marque.label}`, 10, 260);
+  
+    // Save the PDF
+    doc.save(`facture_${contrat.facture.id}.pdf`);
+  };
+
+  // const exportToPDF = () => {
+  //   const doc = new jsPDF();
+  //   const tableColumn = ["Client", "Date Début", "Date Fin", "Prix", "Facture Montant"];
+  //   const tableRows = voiture.contrats.map(contrat => [
+  //     clients.find(client => client.id === contrat.client_id)?.nom || '',
+  //     contrat.date_debut,
+  //     contrat.date_fin,
+  //     contrat.prix_contrat,
+  //     contrat.facture?.montant_total || ''
+  //   ]);
+
+  //   doc.autoTable({
+  //     head: [tableColumn],
+  //     body: tableRows,
+  //   });
+
+  //   doc.save('Contrats.pdf');
+  // };
+
+
   const prepareChartData = (voiture) => {
     if (!voiture || !voiture.contrats) {
       return { labels: [], datasets: [] };
     }
-  
+
+    
     const facturesByMonth = voiture.contrats
       .flatMap(contrat => contrat.facture ? [{...contrat.facture, date: contrat.facture.date_facture}] : [])
       .reduce((acc, facture) => {
@@ -407,7 +562,7 @@ function VoitureDetails() {
              
               {voiture.latest_assurance && (
     <p className='info'>
-   <span className="font-semibold">Assurance :</span>
+   <span className="font-semibold">Assurance : </span>
       {voiture.days_left > 7 && (
         <span className="badge green-badge "> {voiture.days_left} jours</span>
       )}
@@ -425,11 +580,12 @@ function VoitureDetails() {
   </div>
 
 
-  {/* <div className="chart bg-red mt-8 w-full max-w-4xl">
+  <div className="chart bg-red mt-8 w-full max-w-4xl">
   <h2 className="text-2xl font-semibold mb-4">Montant total par mois :</h2>
 
       <Line data={chartData} />
-    </div> */}
+      <p>Montant Total des Factures:  <span className='badge green-badge'>{totalFactureAmount} DH</span></p>
+    </div>
           </div>   
 
           {voiture.contrats.length > 0 ? (
@@ -437,7 +593,11 @@ function VoitureDetails() {
               <h2 className="content text-2xl font-semibold mb-4">Contrats</h2>
           <button className="button" onClick={() => setIsModalOpen(true)}><i className="fa-solid fa-plus"></i> Ajouter Contrat</button>
 
-              <div className="overflow-x-auto">
+              <div className="overflow-x-auto mt-4">
+              <button onClick={exportToExcel} className="button export-button bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700">
+        Export to Excel
+      </button>
+      {/* <button onClick={exportToPDF}>Export to PDF</button> */}
                 <table className="content table-auto w-full">
                   <thead>
                     <tr>
@@ -450,7 +610,7 @@ function VoitureDetails() {
                       <th className="px-4 py-2">Facture ID</th>
                       <th className="px-4 py-2">Date_Facture</th>
                       <th className="px-4 py-2">Montant_Total</th>
-                      <th className="px-4 py-2">______________Actions_facture_____________</th>
+                      <th className="px-4 py-2">_______________Actions_facture______________</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -458,11 +618,17 @@ function VoitureDetails() {
                       <tr key={contrat.id}>
                         <td className="border px-4 py-2">{contrat.id}</td>
                         {/* <td className="border px-4 py-2">{contrat.client_id}</td> */}
-                        <td className="border px-4 py-2">{contrat.client.nom}</td>
+                        <td className="border px-4 py-2">{contrat.client.nom} {contrat.client.prenom}</td>
                         <td className="border px-4 py-2">{contrat.date_debut}</td>
                         <td className="border px-4 py-2">{contrat.date_fin}</td>
                         <td className="border px-4 py-2">{contrat.prix_contrat} <span className='badge green-badge'>DH</span> </td>
                         <td className="border px-4 py-2 flex space-x-2">
+                            <button
+                              onClick={() => generatePDF(contrat, voiture)}
+                              className="button bg-gray-500 text-white py-1 px-3 rounded hover:bg-gray-700"
+                            >
+                              <i className="fa-solid fa-file-pdf"></i> Export to PDF
+                            </button>
                             <button
                               onClick={() => handleEdit(contrat)}
                               className="edit-button bg-yellow-500 text-black py-1 px-3 rounded hover:bg-yellow-700"
@@ -489,18 +655,32 @@ function VoitureDetails() {
                           
                           {!contrat.facture && (
                           <button
-                            onClick={() => {
-                              setNewFacture({ ...newFacture, contrat_id: contrat.id });
-                              setIsFactureModalOpen(true);
-                            }}
+                          onClick={() => {
+                            const dateDebut = new Date(contrat.date_debut);
+                            const dateFin = new Date(contrat.date_fin);
+                    
+                            const differenceInTime = dateFin.getTime() - dateDebut.getTime(); 
+                            const differenceInDays = differenceInTime / (1000 * 3600 * 24); 
+                            const montantTotal = differenceInDays * parseFloat(contrat.prix_contrat);
+                    
+                            setNewFacture({
+                              ...newFacture,
+                              contrat_id: contrat.id,
+                              date_facture: new Date().toISOString().split('T')[0],
+                              montant_total: montantTotal
+                            });
+                    
+                            setIsFactureModalOpen(true);
+                          }}
                             className="button bg-blue-500 text-white py-1 px-3 rounded hover:bg-blue-700"
                           >
                             <i className="fa-solid fa-plus"></i> Ajouter Facture
                           </button>)}
                           {contrat.facture && (
+                            
                             <button
                               onClick={() => handleEditFacture(contrat.facture)}
-                              className="edit-button bg-green-500 text-white py-1 px-3 rounded hover:bg-green-700"
+                              className="edit-button "
                             >
                               <i className="fa-solid fa-pen-to-square"></i> Edit_Facture
                             </button>
