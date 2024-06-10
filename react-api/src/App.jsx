@@ -145,7 +145,7 @@ function App() {
 	</div>
 
   </div>
-  <div className="pt-16 "> 
+  <div className="pt-16  "> 
         <Routes>
           <Route path="/home" element={<Home />} />
           <Route path="/login" element={<Login />} />

@@ -5,6 +5,12 @@ import Modal from './Modal'; // Assuming you have a Modal component
 import './modal.css';
 import '../src/index.css';
 
+// gg
+import { Line } from 'react-chartjs-2';
+import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
+
+
 function VoitureDetails() {
   const [voiture, setVoiture] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -322,17 +328,51 @@ function VoitureDetails() {
       console.error('There was an error deleting the assurance!', error);
     }
   };
+
+  const prepareChartData = (voiture) => {
+    if (!voiture || !voiture.contrats) {
+      return { labels: [], datasets: [] };
+    }
+  
+    const facturesByMonth = voiture.contrats
+      .flatMap(contrat => contrat.facture ? [{...contrat.facture, date: contrat.facture.date_facture}] : [])
+      .reduce((acc, facture) => {
+        const month = new Date(facture.date).toLocaleString('default', { month: 'long', year: 'numeric' });
+        if (!acc[month]) {
+          acc[month] = 0;
+        }
+        acc[month] += parseFloat(facture.montant_total);
+        return acc;
+      }, {});
+  
+    const labels = Object.keys(facturesByMonth).sort((a, b) => new Date(a) - new Date(b));
+    const data = labels.map(label => facturesByMonth[label]);
+  
+    return {
+      labels,
+      datasets: [
+        {
+          label: 'Montant Total Factures',
+          data,
+          borderColor: 'rgba(75, 192, 192, 1)',
+          backgroundColor: 'rgba(75, 192, 192, 0.2)',
+        },
+      ],
+    };
+  };
+
+  const chartData = prepareChartData(voiture);
   
 
   return (
-    <div className="container mx-auto">
+    <div className="container mx-auto ">
       <h1 className="text-3xl font-semibold text-center mt-8 mb-4">Voiture Details</h1>
 
       {voiture ? (
         <div className="flex flex-col items-center">
           <div className="bg-white shadow-lg rounded-lg p-6 mb-6 w-full max-w-lg">
             <h2 className="text-2xl font-semibold mb-4">Voiture Details</h2>
-            <div className="grid grid-cols-1 gap-2">
+            <div className="grid grid-cols-1 gap-2 ">
               <p><span className="font-semibold">ID:</span> {voiture.id}</p>
               <p><span className="font-semibold">Matricule :</span> {voiture.matricule}</p>
               <p><span className="font-semibold">Nbr Chevaux :</span> {voiture.nbr_chevaux}</p>
@@ -375,6 +415,9 @@ function VoitureDetails() {
       {/* Assurance expirée! Assurance expire bientôt! */}
     </p>
   )}
+  <div className="mt-8 w-full max-w-4xl">
+      <Line data={chartData} />
+    </div>
               
             </div>
 
