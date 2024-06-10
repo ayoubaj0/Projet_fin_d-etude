@@ -164,10 +164,10 @@ function Contrats() {
 
   return (
     <div className="container">
-      <h1 className="title">Contrats</h1>
+      <h1 className=" title content">Contrats</h1>
       <button className="button" onClick={() => setIsModalOpen(true)}>Ajouter Contrat</button>
-      
-  <h2 className="text-xl mb-4">Filtrer Contrats</h2>
+      <div className='content'>
+  <h2 className="title text-xl mb-4">Filtrer Contrats</h2>
   <div className=" flex justify-evenly  w-full mb-4">
   
     <div className=" m-8">
@@ -242,7 +242,7 @@ function Contrats() {
       />
     </div>
 
-    
+    </div>
 </div>
 
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
@@ -386,7 +386,7 @@ function Contrats() {
 </form>
 </Modal>
 <div className="overflow-x-auto">
-<table className="min-w-full bg-white rounded-lg shadow-md">
+<table className=" table min-w-full bg-white rounded-lg shadow-md">
   <thead className="bg-gray-200">
     <tr>
       <th className="py-2 px-4 border-b text-left">ID</th>

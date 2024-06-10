@@ -48,6 +48,7 @@ function VoitureDetails() {
     montant_total: ''
   });
   const [newAssurance, setNewAssurance] = useState({
+    ref: '',
     voiture_id: id,
     date_debut: '',
     date_fin: '',
@@ -55,6 +56,7 @@ function VoitureDetails() {
   });
   const [editAssurance, setEditAssurance] = useState({
     id: '',
+    ref: '',
     voiture_id: id,
     date_debut: '',
     date_fin: '',
@@ -226,10 +228,10 @@ function VoitureDetails() {
         setVoiture({ ...voiture, assurances: [...voiture.assurances, response.data] });
         setIsAssuranceModalOpen(false);
         setNewAssurance({
+          ref: '',
           voiture_id: voiture.id,
           date_debut: '',
           date_fin: '',
-          
         });
       } else {
         console.error('Unexpected response:', response);
@@ -252,6 +254,7 @@ function VoitureDetails() {
         setIsEditAssuranceModalOpen(false);
         setEditAssurance({
           id: '',
+          ref: '',
           voiture_id: '',
           date_debut: '',
           date_fin: '',
@@ -366,25 +369,27 @@ function VoitureDetails() {
 
   return (
     <div className="container mx-auto ">
-      <h1 className="text-3xl font-semibold text-center mt-8 mb-4">Voiture Details</h1>
+      <h1 className="title content text-3xl font-semibold text-center mt-8 mb-4">Voiture Details</h1>
 
       {voiture ? (
-        <div className="flex flex-col items-center">
+        <div className=" ">
+           <div className='flex'>
+          <div className="content">
           <div className="bg-white shadow-lg rounded-lg p-6 mb-6 w-full max-w-lg">
-            <h2 className="text-2xl font-semibold mb-4">Voiture Details</h2>
+            <h2 className="text-2xl font-semibold mb-4">Voiture info :</h2>
             <div className="grid grid-cols-1 gap-2 ">
-              <p><span className="font-semibold">ID:</span> {voiture.id}</p>
-              <p><span className="font-semibold">Matricule :</span> {voiture.matricule}</p>
-              <p><span className="font-semibold">Nbr Chevaux :</span> {voiture.nbr_chevaux}</p>
-              <p><span className="font-semibold">Kilometrage :</span> {voiture.kilometrage}</p>
-              <p><span className="font-semibold">Prix par Jour :</span> {voiture.prix_par_jour}</p>
-              <p><span className="font-semibold">Carburant type :</span> {voiture.carburant.label}</p>
-              <p><span className="font-semibold">Marque :</span> {voiture.marque.label}</p>
-              <p><span className="font-semibold">État du véhicule :</span> <span className={`badge text-center ${voiture.disponible === "0" ? "red-badge" : "green-badge"}`}>
+              <p className='info'><span className="font-semibold">ID:</span> {voiture.id}</p>
+              <p className='info'><span className="font-semibold">Matricule :</span> {voiture.matricule}</p>
+              <p className='info'><span className="font-semibold">Nbr Chevaux :</span> {voiture.nbr_chevaux}</p>
+              <p className='info'><span className="font-semibold">Kilometrage :</span> {voiture.kilometrage}</p>
+              <p className='info'><span className="font-semibold">Prix par Jour :</span> {voiture.prix_par_jour}</p>
+              <p className='info'><span className="font-semibold">Carburant type :</span> {voiture.carburant.label}</p>
+              <p className='info'><span className="font-semibold">Marque :</span> {voiture.marque.label}</p>
+              <p className='info'><span className="font-semibold">État du véhicule :</span> <span className={`badge text-center ${voiture.disponible === "0" ? "red-badge" : "green-badge"}`}>
                       {voiture.disponible === "0" ? "Endommagée" : "Bon état"}
                     </span>
               </p>
-              <p> <span className="font-semibold"> État de la location : </span>
+              <p className='info'> <span className="font-semibold"> État de la location : </span>
               {voiture.latest_contrat ? (
     <span>
       {new Date(voiture.latest_contrat.date_debut) <= new Date() && new Date(voiture.latest_contrat.date_fin) >= new Date() ? (
@@ -401,7 +406,7 @@ function VoitureDetails() {
               </p>
              
               {voiture.latest_assurance && (
-    <p className=''>
+    <p className='info'>
    <span className="font-semibold">Assurance :</span>
       {voiture.days_left > 7 && (
         <span className="badge green-badge "> {voiture.days_left} jours</span>
@@ -415,19 +420,25 @@ function VoitureDetails() {
       {/* Assurance expirée! Assurance expire bientôt! */}
     </p>
   )}
-  <div className="mt-8 w-full max-w-4xl">
-      <Line data={chartData} />
-    </div>
-              
-            </div>
+  </div>
+  </div>
+  </div>
 
-          </div>
-          <button className="button" onClick={() => setIsModalOpen(true)}><i className="fa-solid fa-plus"></i> Ajouter Contrat</button>
+
+  {/* <div className="chart bg-red mt-8 w-full max-w-4xl">
+  <h2 className="text-2xl font-semibold mb-4">Montant total par mois :</h2>
+
+      <Line data={chartData} />
+    </div> */}
+          </div>   
+
           {voiture.contrats.length > 0 ? (
-            <div className="bg-white shadow-lg rounded-lg p-6 w-full max-w-4xl">
-              <h2 className="text-2xl font-semibold mb-4">Contrats</h2>
+            <div className=" bg-white shadow-lg rounded-lg p-6 w-full max-w-4xl">
+              <h2 className="content text-2xl font-semibold mb-4">Contrats</h2>
+          <button className="button" onClick={() => setIsModalOpen(true)}><i className="fa-solid fa-plus"></i> Ajouter Contrat</button>
+
               <div className="overflow-x-auto">
-                <table className="table-auto w-full">
+                <table className="content table-auto w-full">
                   <thead>
                     <tr>
                       <th className="px-4 py-2">ID</th>
@@ -513,18 +524,18 @@ function VoitureDetails() {
               </div>
             </div>
           ) : (
-            <p>No contracts found for this car.</p>
+            <p className='badge red-badge'>No contracts found for this car.</p>
           )}
-          <div className="bg-white shadow-lg rounded-lg p-6 w-full max-w-4xl">
-          <h2 className="text-2xl font-semibold mb-4">Assurances</h2>
-          <button onClick={() => setIsAssuranceModalOpen(true)} className="button bg-blue-500 text-white py-1 px-3 rounded hover:bg-blue-700"> <i className="fa-solid fa-plus"></i> Ajouter Assurance</button>
-          <table className="table-auto w-full">
+          <div className=" bg-white shadow-lg rounded-lg p-6 w-full max-w-4xl">
+          <h2 className="content text-2xl font-semibold mb-4">Assurances</h2>
+          <button onClick={() => setIsAssuranceModalOpen(true)} className=" button bg-blue-500 text-white py-1 px-3 rounded hover:bg-blue-700"> <i className="fa-solid fa-plus"></i> Ajouter Assurance</button>
+          <table className=" table table-auto w-full">
             <thead>
               <tr>
-              <th>Assurance ID</th>
+                <th>Assurance ID</th>
+                <th>Ref</th>
                 <th>Date de début</th>
                 <th>Date de fin</th>
-                {/* <th>Montant</th> */}
                 <th>Actions</th>
               </tr>
             </thead>
@@ -532,6 +543,7 @@ function VoitureDetails() {
               {voiture.assurances.map((assurance) => (
                 <tr key={assurance.id}>
                   <td className="border px-4 py-2">{assurance.id}</td>
+                  <td className="border px-4 py-2">{assurance.ref}</td>
                   <td className="border px-4 py-2">{assurance.date_debut}</td>
                   <td className="border px-4 py-2">{assurance.date_fin}</td>
                   {/* <td className="border px-4 py-2">{assurance.montant}</td> */}
@@ -745,6 +757,10 @@ function VoitureDetails() {
       </Modal>
       <Modal isOpen={isAssuranceModalOpen} onClose={() => setIsAssuranceModalOpen(false)}>
             <form onSubmit={handleAssuranceSubmit}>
+             <label>
+                Ref
+                <input type="text" className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md" name="ref" value={newAssurance.ref} onChange={handleAssuranceChange} />
+              </label>
               <label>
                 Date de début:
                 <input type="date" className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md" name="date_debut" value={newAssurance.date_debut} onChange={handleAssuranceChange} />
@@ -758,6 +774,10 @@ function VoitureDetails() {
           </Modal>
           <Modal isOpen={isEditAssuranceModalOpen} onClose={() => setIsEditAssuranceModalOpen(false)}>
             <form onSubmit={handleEditAssuranceSubmit}>
+              <label>
+                Ref
+                <input type="text" className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"  name="ref" value={editAssurance.ref} onChange={handleEditAssuranceChange} />
+              </label>
               <label>
                 Date de début:
                 <input type="date" className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"  name="date_debut" value={editAssurance.date_debut} onChange={handleEditAssuranceChange} />

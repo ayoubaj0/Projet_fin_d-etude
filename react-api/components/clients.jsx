@@ -126,7 +126,7 @@ function Clients() {
     //     Ajouter Client
     //   </button>
       <div className="container">
-  <h1 className="title">Clients</h1>
+  <h1 className="title content">Clients</h1>
   <button className="button" onClick={() => setIsModalOpen(true)}>Ajouter Client</button>
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <h2 className="text-2xl mb-4">Ajouter Client</h2>
@@ -275,7 +275,7 @@ function Clients() {
         </form>
       </Modal>
       <div className="overflow-x-auto">
-        <table className="min-w-full bg-white rounded-lg shadow-md">
+        <table className="table min-w-full bg-white rounded-lg shadow-md">
           <thead className="bg-gray-200">
             <tr>
               <th className="py-2 px-4 border-b text-left">ID</th>

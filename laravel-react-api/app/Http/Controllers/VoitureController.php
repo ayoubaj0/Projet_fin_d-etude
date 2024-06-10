@@ -13,7 +13,7 @@ class VoitureController extends Controller
      */
     public function index()
 {
-    $voitures = Voiture::with(['latestAssurance', 'latestContrat', 'contrats', 'marque', 'carburant'])->get();
+    $voitures = Voiture::with(['latestAssurance', 'latestContrat', 'contrats.facture', 'marque', 'carburant'])->get();
     foreach ($voitures as $voiture) {
         if ($voiture->latestAssurance) {
             $endDate = Carbon::parse($voiture->latestAssurance->date_fin);
@@ -53,15 +53,8 @@ class VoitureController extends Controller
             'prix_par_jour' => 'required|numeric',
             'carburant_id' => 'required|exists:carburants,id',
             'marque_id' => 'required|exists:marques,id',
-            // 'carburant_id' => 'required|integer', // change to integer
-            // 'marque_id' => 'required|integer', // change to integer
             'disponible' => 'required|string',
         ]);
-        // $data = $request->all();
-        // if (!isset($data['disponible'])) {
-        //     $data['disponible'] = "0";
-        // }
-    
         $voiture = Voiture::create($data);
     
         // $voiture = Voiture::create($request->all());

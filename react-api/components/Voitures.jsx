@@ -232,9 +232,10 @@ const handleEditChange = (e) => {
 
   return (
     <div className="container">
-      <h1 className="title">Voitures</h1>
+      <h1 className="title content">Voitures</h1>
       <button className="button" onClick={() => setIsModalOpen(true)}><i className="fa-solid fa-plus"></i> Ajouter Voiture</button>
-      <div className="filter-container">
+      <div className="content filter-container">
+        <h1 className='title'>Filters : </h1>
         <select name="carburant_id" value={filter.carburant_id} onChange={handleFilterChange} className="filter-select">
           <option value="">Tous les carburants</option>
           {carburants.map(carburant => (
@@ -472,7 +473,7 @@ const handleEditChange = (e) => {
             </select>
           </div> */}
           <div className="mb-4">
-  <label className="block text-gray-700">Disponible</label>
+  <label className=" tableblock text-gray-700">Disponible</label>
   <select
     name="disponible"
     value={editVoiture.disponible}
@@ -491,7 +492,7 @@ const handleEditChange = (e) => {
         </form>
       </Modal>
       <div className="overflow-x-auto">
-        <table className="min-w-full bg-white rounded-lg shadow-md">
+        <table className="table min-w-full bg-white rounded-lg shadow-md">
           <thead className="bg-gray-200">
             <tr>
               <th className="py-2 px-4 border-b text-left">ID</th>

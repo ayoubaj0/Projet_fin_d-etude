@@ -12,7 +12,11 @@ class FactureController extends Controller
      */
     public function index()
     {
-        //
+        // Retrieve all contrats
+        $factures = Facture::all();
+
+        // Return JSON response
+        return response()->json($factures, 200);
     }
 
     /**
