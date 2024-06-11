@@ -575,6 +575,18 @@ function VoitureDetails() {
       {/* Assurance expirée! Assurance expire bientôt! */}
     </p>
   )}
+  
+<div>
+<div>
+    {voiture.image && (
+                  <img
+                    src={`http://127.0.0.1:8000/storage/${voiture.image}`}
+                    alt="Voiture"
+                    className="w-20 h-20 object-cover"
+                  />
+                )}
+  </div>
+</div>
   </div>
   </div>
   </div>
@@ -586,7 +598,9 @@ function VoitureDetails() {
       <Line data={chartData} />
       <p>Montant Total des Factures:  <span className='badge green-badge'>{totalFactureAmount} DH</span></p>
     </div>
+    
           </div>   
+          
 
           {voiture.contrats.length > 0 ? (
             <div className=" bg-white shadow-lg rounded-lg p-6 w-full max-w-4xl">
@@ -594,8 +608,8 @@ function VoitureDetails() {
           <button className="button" onClick={() => setIsModalOpen(true)}><i className="fa-solid fa-plus"></i> Ajouter Contrat</button>
 
               <div className="overflow-x-auto mt-4">
-              <button onClick={exportToExcel} className="button export-button bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700">
-        Export to Excel
+              <button onClick={exportToExcel} className="button-g export-button bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700">
+              <i class="fa-solid fa-file-excel"></i> Export to Excel
       </button>
       {/* <button onClick={exportToPDF}>Export to PDF</button> */}
                 <table className="content table-auto w-full">
@@ -610,7 +624,7 @@ function VoitureDetails() {
                       <th className="px-4 py-2">Facture ID</th>
                       <th className="px-4 py-2">Date_Facture</th>
                       <th className="px-4 py-2">Montant_Total</th>
-                      <th className="px-4 py-2">_______________Actions_facture______________</th>
+                      <th className="px-4 py-2">__________________________Actions_facture_________________________</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -623,12 +637,7 @@ function VoitureDetails() {
                         <td className="border px-4 py-2">{contrat.date_fin}</td>
                         <td className="border px-4 py-2">{contrat.prix_contrat} <span className='badge green-badge'>DH</span> </td>
                         <td className="border px-4 py-2 flex space-x-2">
-                            <button
-                              onClick={() => generatePDF(contrat, voiture)}
-                              className="button bg-gray-500 text-white py-1 px-3 rounded hover:bg-gray-700"
-                            >
-                              <i className="fa-solid fa-file-pdf"></i> Export to PDF
-                            </button>
+                            
                             <button
                               onClick={() => handleEdit(contrat)}
                               className="edit-button bg-yellow-500 text-black py-1 px-3 rounded hover:bg-yellow-700"
@@ -652,6 +661,12 @@ function VoitureDetails() {
                           <td className="border px-4 py-2  " colSpan="3"><span className='badge red-badge'> No Facture Available </span></td>
                         )}
                         <td className="border px-4 py-2 flex space-x-2">
+                        <button
+                              onClick={() => generatePDF(contrat, voiture)}
+                              className="button-g bg-gray-500 text-white py-1 px-3 rounded hover:bg-gray-700"
+                            >
+                              <i className="fa-solid fa-file-pdf"></i> Export_to_PDF
+                            </button>
                           
                           {!contrat.facture && (
                           <button

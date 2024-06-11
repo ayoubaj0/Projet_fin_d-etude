@@ -189,7 +189,7 @@ const Home = () => {
           <span>{totalPrixMois} <span className="badge green-badge">DH</span></span>
         </div>
       </div>
-      
+{/*       
       <div>
         <h1 className='title'>Graphiques</h1>
         <div className="flex">
@@ -206,7 +206,7 @@ const Home = () => {
           <h2 className="text-1xl text-emerald-500 font-semibold mb-4">Total Montant Par Voiture</h2>
           <Bar data={barChartData} />
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

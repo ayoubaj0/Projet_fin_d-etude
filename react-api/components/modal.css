@@ -21,6 +21,15 @@
     cursor: pointer;
     font-size: 1rem;
   }
+  .button-g {
+    background-color: #33c069;
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+  }
   
   .button:hover {
     background-color: #3182ce;

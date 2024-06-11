@@ -31,9 +31,9 @@ function Voitures() {
     carburant_id: '',
     marque_id: '',
     disponible: '',
-    image: null,
-
+    image: null
   });
+  
   const [filter, setFilter] = useState({
     matricule: '',
     carburant_id: '',
@@ -86,8 +86,8 @@ function Voitures() {
     fetchCarburants();
   }, []);
   const filteredVoitures = voitures.filter(voiture => {
-    console.log("Days left:", voiture.days_left);
-    console.log("Assurance status filter:", filter.assurance_status);
+    // console.log("Days left:", voiture.days_left);
+    // console.log("Assurance status filter:", filter.assurance_status);
     return (
       (filter.matricule === '' || voiture.matricule.toLowerCase().includes(filter.matricule.toLowerCase())) &&
       (filter.carburant_id === '' || voiture.carburant_id === parseInt(filter.carburant_id)) &&
@@ -162,26 +162,59 @@ function Voitures() {
     }
   };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
+//   const handleChange = (e) => {
+//     const { name, value } = e.target;
+//     setNewVoiture((prevState) => ({
+//       ...prevState,
+//       [name]: value,
+//     }));
+// };
+const handleChange = (e) => {
+  const { name, value, files } = e.target;
+  if (name === 'image') {
+    setNewVoiture((prevState) => ({
+      ...prevState,
+      image: files[0],
+    }));
+  } else {
     setNewVoiture((prevState) => ({
       ...prevState,
       [name]: value,
     }));
+  }
 };
 
+// const handleEditChange = (e) => {
+//   const { name, value } = e.target;
+//   setEditVoiture((prevState) => ({
+//     ...prevState,
+//     [name]: value,
+//   }));
+// };
 const handleEditChange = (e) => {
-  const { name, value } = e.target;
-  setEditVoiture((prevState) => ({
-    ...prevState,
-    [name]: value,
-  }));
+  const { name, value, files } = e.target;
+  if (name === 'image') {
+    setEditVoiture((prevState) => ({
+      ...prevState,
+      image: files[0],
+    }));
+  } else {
+    setEditVoiture((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  }
 };
 
   const handleSubmit = async (e) => {
+
     e.preventDefault();
     try {
-      const response = await axios.post('http://127.0.0.1:8000/api/voitures', newVoiture);
+      const response = await axios.post('http://127.0.0.1:8000/api/voitures', newVoiture, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
       if (response.status === 201) {
         // setVoitures([...voitures, response.data]);
     fetchVoitures();
@@ -194,7 +227,8 @@ const handleEditChange = (e) => {
           prix_par_jour: '',
           carburant_id: '',
           marque_id: '',
-          disponible: '1'
+          disponible: '1',
+          image: null,
         });
       } else {
         console.error('Unexpected response:', response);
@@ -206,32 +240,55 @@ const handleEditChange = (e) => {
 
   const handleEditSubmit = async (e) => {
     e.preventDefault();
+  
+    // const formData = new FormData();
+    // formData.append('matricule', editVoiture.matricule);
+    // formData.append('nbr_chevaux', editVoiture.nbr_chevaux);
+    // formData.append('kilometrage', editVoiture.kilometrage);
+    // formData.append('prix_par_jour', editVoiture.prix_par_jour);
+    // formData.append('carburant_id', editVoiture.carburant_id);
+    // formData.append('marque_id', editVoiture.marque_id);
+    // formData.append('disponible', editVoiture.disponible);
+  
+    // if (editVoiture.image && editVoiture.image instanceof File) {
+    //   formData.append('image', editVoiture.image);
+    // }
+    // console.log(formData);
+    // // Log the formData for debugging
+    // for (let [key, value] of formData.entries()) {
+    //   console.log(key, value);
+    // }
+    // console.log(editVoiture)
     try {
-      const response = await axios.put(`http://127.0.0.1:8000/api/voitures/${editVoiture.id}`, editVoiture);
-      if (response.status === 200) {
-        // setVoitures(voitures.map(voiture => (voiture.id === editVoiture.id ? response.data : voiture)));
-        fetchVoitures();
-        setIsEditModalOpen(false);
-        setEditVoiture({
-          id: '',
-          matricule: '',
-          nbr_chevaux: '',
-          kilometrage: '',
-          prix_par_jour: '',
-          carburant_id: '',
-          marque_id: '',
-          disponible: ''
-        });
-      } else {
-        console.error('Unexpected response:', response);
+      const response = await axios.put(`http://localhost:8000/api/voitures/${editVoiture.id}`, editVoiture)
+      
+      if(response.status === 200) {
+        console.log('Update response:', response.data);
       }
+      setIsEditModalOpen(false);
+      fetchVoitures(); // Refresh the voiture list
     } catch (error) {
       console.error('There was an error updating the voiture!', error);
+      console.log(error.response.data); // Log the detailed error response
     }
   };
 
   const openEditModal = (voiture) => {
-    setEditVoiture(voiture);
+    console.log('test');
+    // setEditVoiture(voiture);
+    setEditVoiture({
+      id: voiture.id,
+      matricule: voiture.matricule,
+      nbr_chevaux: voiture.nbr_chevaux,
+      kilometrage: voiture.kilometrage,
+      prix_par_jour: voiture.prix_par_jour,
+      carburant_id: voiture.carburant.id,
+      marque_id: voiture.marque.id,
+      disponible: voiture.disponible,
+      // image: null,
+    });
+    console.log('test');
+
     setIsEditModalOpen(true);
   };
 
@@ -414,6 +471,15 @@ const handleEditChange = (e) => {
   </select>
   
 </div>
+<div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2">Image</label>
+            <input
+              type="file"
+              name="image"
+              onChange={handleChange}
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            />
+          </div>
 {/* {typeof newVoiture.disponible} */}
           <button type="submit" className="bg-green-500 text-black py-2 px-4 rounded">
            <i className="fa-solid fa-check"></i> Submit
@@ -497,20 +563,7 @@ const handleEditChange = (e) => {
               ))}
             </select>
           </div>
-          {/* <div className="mb-4">
-            <label className="block text-gray-700">Disponible</label>
-            <select
-              name="disponible"
-              value={editVoiture.disponible ? "1" : "0"}
-              onChange={handleEditChange}
-              className="mt-1 p-2 w-full border rounded"
-              required
-            >
-              <option value="">Select</option>
-              <option value="1">Oui</option>
-              <option value="0">Non</option>
-            </select>
-          </div> */}
+          
           <div className="mb-4">
   <label className=" tableblock text-gray-700">Disponible</label>
   <select
@@ -525,14 +578,23 @@ const handleEditChange = (e) => {
     <option value="0">Non</option>
   </select>
 </div>
+{/* <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2">Image</label>
+            <input
+              type="file"
+              name="image"
+              onChange={handleEditChange}
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            />
+          </div> */}
           <button type="submit" className="bg-green-500 text-black py-2 px-4 rounded">
            <i className="fa-solid fa-check"></i> Submit
           </button>
         </form>
       </Modal>
       <div className="overflow-x-auto">
-      <button onClick={exportToExcel} className="button export-button bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700">
-        Export to Excel
+      <button onClick={exportToExcel} className="button-g export-button bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700">
+      <i class="fa-solid fa-file-excel"></i> Export to Excel
       </button>
         <table className="table min-w-full bg-white rounded-lg shadow-md">
           <thead className="bg-gray-200">
@@ -544,10 +606,11 @@ const handleEditChange = (e) => {
               <th className="py-2 px-4 border-b text-left">Prix par_Jour</th>
               <th className="py-2 px-4 border-b text-left">Carburant Type </th>
               <th className="py-2 px-4 border-b text-left">Marque </th>
+              <th className="py-2 px-4 border-b text-left">_______image_______ </th>
               <th className="py-2 px-4 border-b text-left">État du_véhicule</th>
               <th className="py-2 px-4 border-b text-left">Jours restants pour_l'assurance</th>
               <th className="py-2 px-4 border-b text-left">État de_la_voiture_en_location</th>
-              <th className="py-2 px-4 border-b text-left" style={{ width: "200px" }}>________________Actions_________________</th>
+              <th className="py-2 px-4 border-b text-left" >________________Actions_________________</th>
             </tr>
           </thead>
           <tbody>
@@ -555,11 +618,21 @@ const handleEditChange = (e) => {
               <tr key={voiture.id} className="hover:bg-gray-400 transition duration-200">
                 <td className="py-2 px-4 border-b">{voiture.id}</td>
                 <td className="py-2 px-4 border-b">{voiture.matricule}</td>
+                
                 <td className="py-2 px-4 border-b">{voiture.nbr_chevaux}</td>
                 <td className="py-2 px-4 border-b">{voiture.kilometrage}</td>
                 <td className="py-2 px-4 border-b">{voiture.prix_par_jour}</td>
                 <td className="py-2 px-4 border-b">{voiture.carburant.label}</td>
                 <td className="py-2 px-4 border-b">{voiture.marque.label}</td>
+                <td className="border px-4 py-2">
+                {voiture.image && (
+                  <img
+                    src={`http://127.0.0.1:8000/storage/${voiture.image}`}
+                    alt="Voiture"
+                    className="w-20 h-20 object-cover"
+                  />
+                )}
+              </td>
                 <td className="py-2 px-4 border-b ">
                     <p className={`badge text-center ${voiture.disponible === "0" ? "red-badge" : "green-badge"}`}>
                       {voiture.disponible === "0" ? "Endommagée" : "Bon état"}
@@ -619,7 +692,9 @@ const handleEditChange = (e) => {
   
 </td>
 
-                <td className="py-2 px-4 border-b flex space-x-2">
+
+                
+                <td className="py-2 px-4 border-b">
                   <Link to={`/voiture-details/${voiture.id}`} className="button bg-blue-500 text-black py-1 px-3 rounded hover:bg-blue-700">
                   <i className="fa-regular fa-eye"></i> Details
                   </Link>

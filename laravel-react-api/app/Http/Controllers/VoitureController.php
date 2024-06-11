@@ -107,38 +107,43 @@ class VoitureController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, $id)
-    {
-        $data = $request->validate([
-            'matricule' => 'string|max:255|unique:voitures,matricule,'.$id,
-            'nbr_chevaux' => 'integer',
-            'kilometrage' => 'integer',
-            'prix_par_jour' => 'numeric',
-            'carburant_id' => 'required|exists:carburants,id',
-            'marque_id' => 'required|exists:marques,id',
-            'disponible' => 'required|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ]);
+{
+    // dd($request);
+    $voiture = Voiture::find($id);
+    // dd($voiture);
 
-        $voiture = Voiture::find($id);
-        
-
-        if (is_null($voiture)) {
-            return response()->json(['message' => 'Voiture not found'], 404);
-        }
-
-        if ($request->hasFile('image')) {
-            if ($voiture->image) {
-                Storage::disk('public')->delete($voiture->image);
-            }
-
-            $path = $request->file('image')->store('images', 'public');
-            $data['image'] = $path;
-        }
-
-        $voiture->update($data);
-
-        return response()->json($voiture, 200);
+    if (is_null($voiture)) {
+        return response()->json(['message' => 'Voiture not found'], 404);
     }
+
+    $data = $request->validate([
+        'matricule' => 'required|string|max:255|unique:voitures,matricule,'.$id,
+        'nbr_chevaux' => 'required|integer',
+        'kilometrage' => 'required|integer',
+        'prix_par_jour' => 'required|string',
+        'carburant_id' => 'required|exists:carburants,id',
+        'marque_id' => 'required|exists:marques,id',
+        'disponible' => 'required|string',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+    ]);
+
+    if ($request->hasFile('image')) {
+        if ($voiture->image) {
+            Storage::disk('public')->delete($voiture->image);
+        }
+
+        $path = $request->file('image')->store('images', 'public');
+        $data['image'] = $path;
+    }
+
+    $voiture->update($data);
+
+    return response()->json($voiture, 200);
+    // return response()->json([
+    //     'request' => $request
+    // ]);
+}
+
 
     /**
      * Remove the specified resource from storage.
