@@ -171,27 +171,28 @@ const Home = () => {
 
   return (
     <div className='container'>
+       <h1 className='title content'>Statistique : </h1>
       <div className="dashboard-stats">
         <div className="stat-box">
           <p>Nombre de clients:</p>
-          <span>{clients.length}</span>
+          <span>{clients.length} <i class="fa-solid fa-user-group"></i></span>
         </div>
         <div className="stat-box">
-          <p>Nombre de voitures:</p>
-          <span>{voitures.length}</span>
+          <p>Nombre de voitures:</p> 
+          <span>{voitures.length} <i class="fa-solid fa-car"></i></span>
         </div>
         <div className="stat-box">
           <p>Nombre de contrats:</p>
-          <span>{contrats.length}</span>
+          <span>{contrats.length} <i class="fa-solid fa-file-contract"></i></span>
         </div>
         <div className="stat-box">
           <p>Total des prix pour le mois en cours:</p>
           <span>{totalPrixMois} <span className="badge green-badge">DH</span></span>
         </div>
       </div>
-{/*       
+      
       <div>
-        <h1 className='title'>Graphiques</h1>
+        <h1 className='title content'>Graphiques : </h1>
         <div className="flex">
           <div className='content'>
             <h2 className="text-1xl text-emerald-500 font-semibold mb-4">Total Montant Par Mois</h2>
@@ -206,7 +207,7 @@ const Home = () => {
           <h2 className="text-1xl text-emerald-500 font-semibold mb-4">Total Montant Par Voiture</h2>
           <Bar data={barChartData} />
         </div>
-      </div> */}
+      </div>
     </div>
   );
 };

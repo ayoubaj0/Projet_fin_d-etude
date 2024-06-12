@@ -244,6 +244,7 @@ function VoitureDetails() {
       const response = await axios.post('http://127.0.0.1:8000/api/assurances', newAssurance);
       if (response.status === 201) {
         setVoiture({ ...voiture, assurances: [...voiture.assurances, response.data] });
+        fetchVoiture();
         setIsAssuranceModalOpen(false);
         setNewAssurance({
           ref: '',
@@ -352,16 +353,23 @@ function VoitureDetails() {
 
   const handleAssuranceDelete = async (id) => {
     try {
-      const response = await axios.delete(`http://127.0.0.1:8000/api/assurances/${id}`);
-      if (response.status === 204) {
-        setVoiture({ ...voiture, assurances: voiture.assurances.filter((assurance) => assurance.id !== id) });
-      } else {
-        console.error('Unexpected response:', response);
-      }
+        const response = await axios.delete(`http://127.0.0.1:8000/api/assurances/${id}`);
+        if (response.status === 200) {
+            // Filter out the deleted assurance from the voiture assurances
+            const updatedAssurances = voiture.assurances.filter((assurance) => assurance.id !== id);
+            setVoiture(prevVoiture => ({ ...prevVoiture, assurances: updatedAssurances }));
+
+            console.log('Assurance deleted, updated assurances:', updatedAssurances);
+            
+            // Fetch updated voiture data
+            fetchVoiture();
+        } else {
+            console.error('Unexpected response:', response);
+        }
     } catch (error) {
-      console.error('There was an error deleting the assurance!', error);
+        console.error('There was an error deleting the assurance!', error);
     }
-  };
+};
 
   const exportToExcel = () => {
     const worksheet = XLSX.utils.json_to_sheet(voiture.contrats.map(contrat => ({
@@ -582,7 +590,7 @@ function VoitureDetails() {
                   <img
                     src={`http://127.0.0.1:8000/storage/${voiture.image}`}
                     alt="Voiture"
-                    className="w-20 h-20 object-cover"
+                    className=""
                   />
                 )}
   </div>
@@ -601,12 +609,11 @@ function VoitureDetails() {
     
           </div>   
           
+          <h2 className="content text-2xl font-semibold mb-4">Contrats</h2>
+          <button className="button" onClick={() => setIsModalOpen(true)}><i className="fa-solid fa-plus"></i> Ajouter Contrat</button>
 
           {voiture.contrats.length > 0 ? (
             <div className=" bg-white shadow-lg rounded-lg p-6 w-full max-w-4xl">
-              <h2 className="content text-2xl font-semibold mb-4">Contrats</h2>
-          <button className="button" onClick={() => setIsModalOpen(true)}><i className="fa-solid fa-plus"></i> Ajouter Contrat</button>
-
               <div className="overflow-x-auto mt-4">
               <button onClick={exportToExcel} className="button-g export-button bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700">
               <i class="fa-solid fa-file-excel"></i> Export to Excel
@@ -632,7 +639,9 @@ function VoitureDetails() {
                       <tr key={contrat.id}>
                         <td className="border px-4 py-2">{contrat.id}</td>
                         {/* <td className="border px-4 py-2">{contrat.client_id}</td> */}
-                        <td className="border px-4 py-2">{contrat.client.nom} {contrat.client.prenom}</td>
+                        <td className="border px-4 py-2">
+                          {contrat.client ? `${contrat.client.nom} ${contrat.client.prenom}` : contrat.client_id}
+                        </td>
                         <td className="border px-4 py-2">{contrat.date_debut}</td>
                         <td className="border px-4 py-2">{contrat.date_fin}</td>
                         <td className="border px-4 py-2">{contrat.prix_contrat} <span className='badge green-badge'>DH</span> </td>
@@ -813,8 +822,8 @@ function VoitureDetails() {
             />
           </div>
           <div className="flex justify-end">
-            <button type="submit" className="add-button bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">Add</button>
-            <button type="button" className="cancel-button ml-2 bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-700" onClick={() => setIsModalOpen(false)}>Cancel</button>
+            <button type="submit" className="button add-button bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">Add</button>
+            <button type="button" className="edit-button cancel-button ml-2 bg-gray-500  py-2 px-4 rounded hover:bg-gray-700" onClick={() => setIsModalOpen(false)}>Cancel</button>
           </div>
         </form>
       </Modal>
@@ -875,8 +884,8 @@ function VoitureDetails() {
             />
           </div>
           <div className="flex justify-end">
-            <button type="submit" className="edit-button bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">Save</button>
-            <button type="button" className="cancel-button ml-2 bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-700" onClick={() => setIsEditModalOpen(false)}>Cancel</button>
+            <button type="submit" className="button edit-button bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">Save</button>
+            <button type="button" className="edit-button cancel-button ml-2 bg-gray-500  py-2 px-4 rounded hover:bg-gray-700" onClick={() => setIsEditModalOpen(false)}>Cancel</button>
           </div>
         </form>
       </Modal>
@@ -911,8 +920,8 @@ function VoitureDetails() {
             />
           </div>
           <div className="flex justify-end">
-            <button type="submit" className="add-button bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">Add</button>
-            <button type="button" className="cancel-button ml-2 bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-700" onClick={() => setIsFactureModalOpen(false)}>Cancel</button>
+            <button type="submit" className="button add-button bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">Add</button>
+            <button type="button" className="edit-button cancel-button ml-2 bg-gray-500  py-2 px-4 rounded hover:bg-gray-700" onClick={() => setIsFactureModalOpen(false)}>Cancel</button>
           </div>
         </form>
       </Modal>
@@ -945,8 +954,8 @@ function VoitureDetails() {
             />
           </div>
           <div className="flex justify-end">
-            <button type="submit" className="edit-button bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">Save</button>
-            <button type="button" className="cancel-button ml-2 bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-700" onClick={() => setIsEditFactureModalOpen(false)}>Cancel</button>
+            <button type="submit" className="button edit-button bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">Save</button>
+            <button type="button" className="edit-button cancel-button ml-2 bg-gray-500  py-2 px-4 rounded hover:bg-gray-700" onClick={() => setIsEditFactureModalOpen(false)}>Cancel</button>
           </div>
         </form>
       </Modal>
@@ -964,7 +973,7 @@ function VoitureDetails() {
                 Date de fin:
                 <input type="date" className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md" name="date_fin" value={newAssurance.date_fin} onChange={handleAssuranceChange} />
               </label>
-              <button type="submit" className="button bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700" >Ajouter</button>
+              <button type="submit" className="button button bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700" >Ajouter</button>
             </form>
           </Modal>
           <Modal isOpen={isEditAssuranceModalOpen} onClose={() => setIsEditAssuranceModalOpen(false)}>
@@ -981,7 +990,7 @@ function VoitureDetails() {
                 Date de fin:
                 <input type="date" className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"  name="date_fin" value={editAssurance.date_fin} onChange={handleEditAssuranceChange} />
               </label>
-              <button type="submit" className="button bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700" >Modifier</button>
+              <button type="submit" className="button button bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700" >Modifier</button>
             </form>
           </Modal>
     </div>

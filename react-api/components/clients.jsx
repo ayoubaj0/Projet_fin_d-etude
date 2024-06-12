@@ -133,7 +133,7 @@ function Clients() {
     //   </button>
       <div className="container">
   <h1 className="title content">Clients</h1>
-  <div className="my-4">
+  <div className="m-4">
         <input
           type="text"
           placeholder="Recherch par CIN ou passport"
@@ -142,7 +142,7 @@ function Clients() {
           className="p-2 border rounded w-full"
         />
       </div>
-  <button className="button" onClick={() => setIsModalOpen(true)}> <i className="fa-solid fa-plus"></i>Ajouter Client</button>
+  <button className="button  " onClick={() => setIsModalOpen(true)}> <i className="fa-solid fa-plus"></i>Ajouter Client</button>
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <h2 className="text-2xl mb-4">Ajouter Client</h2>
         <form onSubmit={handleSubmit}>
@@ -211,7 +211,7 @@ function Clients() {
               required
             />
           </div>
-          <button type="submit" className="bg-green-500 text-black py-2 px-4 rounded">
+          <button type="submit" className="button bg-green-500 text-black py-2 px-4 rounded">
             Submit
           </button>
         </form>
@@ -284,7 +284,7 @@ function Clients() {
               required
             />
           </div>
-          <button type="submit" className="bg-green-500 text-black py-2 px-4 rounded">
+          <button type="submit" className="button bg-green-500 text-black py-2 px-4 rounded ">
             Submit
           </button>
         </form>

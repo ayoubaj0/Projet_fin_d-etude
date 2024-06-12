@@ -88,32 +88,52 @@ function Contrats() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://127.0.0.1:8000/api/contrats', newContrat);
-      if (response.status === 201) {
-        setContrats([...contrats, response.data]);
-        setIsModalOpen(false);
-        setNewContrat({
-          client_id: '',
-          voiture_id: '',
-          date_debut: '',
-          date_fin: '',
-          prix_contrat: ''
-        });
-      } else {
-        console.error('Unexpected response:', response);
-      }
+        const response = await axios.post('http://127.0.0.1:8000/api/contrats', newContrat);
+        if (response.status === 201) {
+            const newContratResponse = response.data;
+            const updatedContrats = [...contrats, newContratResponse];
+            setContrats(updatedContrats);
+            console.log('Updated contrats:', updatedContrats);
+            setIsModalOpen(false);
+            fetchContrats();
+            fetchClients();
+            setNewContrat({
+                client_id: '',
+                voiture_id: '',
+                date_debut: '',
+                date_fin: '',
+                prix_contrat: ''
+            });
+        } else {
+            console.error('Unexpected response:', response);
+        }
     } catch (error) {
-      console.error('There was an error adding the contrat!', error);
+        console.error('There was an error adding the contrat!', error);
     }
-  };
+};
 
   const handleEditSubmit = async (e) => {
     e.preventDefault();
     try {
       const response = await axios.put(`http://127.0.0.1:8000/api/contrats/${editContrat.id}`, editContrat);
       if (response.status === 200) {
-        setContrats(contrats.map(contrat => (contrat.id === editContrat.id ? response.data : contrat)));
+
+        const updatedContrat = response.data;
+            const updatedContrats = contrats.map(contrat => {
+                if (contrat.id === updatedContrat.id) {
+                    return {
+                        ...contrat,
+                        ...updatedContrat
+                    };
+                }
+                return contrat;
+            });
+
+            setContrats(updatedContrats);
+        console.log(contrats);
         setIsEditModalOpen(false);
+        fetchClients();
+        fetchContrats();
         setEditContrat({
           id: '',
           client_id: '',
@@ -165,7 +185,7 @@ function Contrats() {
   return (
     <div className="container">
       <h1 className=" title content">Contrats</h1>
-      <button className="button" onClick={() => setIsModalOpen(true)}> <i className="fa-solid fa-plus"></i>Ajouter Contrat</button>
+      {/* <button className="button" onClick={() => setIsModalOpen(true)}> <i className="fa-solid fa-plus"></i>Ajouter Contrat</button> */}
       <div className='content'>
   <h2 className="title text-xl mb-4">Filtrer Contrats</h2>
   <div className=" flex justify-evenly  w-full mb-4">
@@ -260,7 +280,7 @@ function Contrats() {
     <option value="">Select Client</option>
     {clients.map(client => (
       <option key={client.id} value={client.id}>
-        {client.nom} {/* Assuming 'name' is the property that holds client names */}
+        {client.nom} 
       </option>
     ))}
   </select>
@@ -316,7 +336,7 @@ function Contrats() {
               required
             />
           </div>
-          <button type="submit" className="bg-green-500 text-black py-2 px-4 rounded">
+          <button type="submit" className="button bg-green-500 text-black py-2 px-4 rounded">
             Submit
           </button>
         </form>
@@ -380,7 +400,7 @@ function Contrats() {
     required
   />
 </div>
-<button type="submit" className="bg-green-500 text-black py-2 px-4 rounded">
+<button type="submit" className="button bg-green-500 text-black py-2 px-4 rounded">
   Submit
 </button>
 </form>
